@@ -1,0 +1,46 @@
+@use '../_theme' as t;
+
+.list {
+    table-layout: fixed;
+    border: none;
+    
+
+    .list__item {
+        &.list__item--active {
+            .list__level button {
+                background-color: t.$primary-color;
+                color: t.$on-primary-color;
+            }
+        }
+
+        .list__rank {
+            padding: 1rem;
+            text-align: end;
+            color: rgba(118, 168, 255, 0.9);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .list__level button {
+                
+            background-color: rgba(#000, 0);
+            color: t.$on-background-color;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: start;
+            line-break: anywhere;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            &:hover {
+                color: rgba(118, 168, 255, 0.9);
+                background-color: t.$primary-color;
+                color: t.$on-primary-color;
+                cursor: pointer;
+                transform: translateY(-2px);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            }
+        }
+    }
+}

@@ -1,0 +1,201 @@
+.page-list {
+    .list-container,
+    .level-container,
+    .meta-container {
+        padding-block: 2rem;
+    }
+  
+    .list-container,
+    .meta-container {
+      background-color: rgba(#000, 0.1);
+    }
+
+    .list-container {
+      background-color: rgba(#000, 0.15);
+      border-radius: 1rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      padding-inline: 1rem;
+      margin-left: 1rem;
+      transition: all 0.3s ease;
+      
+      // Left side vertical accent line
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 1rem;
+        bottom: 1rem;
+        width: 4px;
+        background: linear-gradient(to bottom, #4444ff, rgba(118, 168, 255, 0.4));
+        border-radius: 2px;
+      }
+      
+      // List items styling
+      .list__item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        transition: all 0.2s ease;
+        padding: 0.75rem 0.5rem;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.03);
+          transform: translateX(4px);
+        }
+        
+        &--active {
+          background-color: rgba(255, 255, 255, 0.05);
+          border-left: 3px solid rgba(118, 168, 255, 0.8);
+          padding-left: 0.75rem;
+        }
+        
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  
+    .meta-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    // Add search bar styling
+    .search-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+      padding-inline: 1.5rem;
+      
+      .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--color-on-background);
+        font-family: 'Lexend Deca', sans-serif;
+        font-size: 1rem;
+        transition: background-color 0.2s, box-shadow 0.2s;
+        
+        &:focus {
+          outline: none;
+          background-color: rgba(255, 255, 255, 0.15);
+          box-shadow: 0 0 0 2px rgba(var(--color-primary), 0.5);
+        }
+        
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.6);
+        }
+      }
+      
+      .search-clear {
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--color-on-background);
+        font-size: 1.25rem;
+        cursor: pointer;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
+        
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    
+    .list__empty {
+        text-align: center;
+        padding: 2rem;
+        color: rgba(255, 255, 255, 0.7);
+        
+        td {
+            padding: 1rem;
+            text-align: center;
+        }
+      }
+  
+    .level {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding-right: 2rem;
+        max-width: 48rem;
+  
+        .level-authors {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            grid-auto-rows: max-content;
+            gap: 1rem;
+        }
+  
+        .video {
+            aspect-ratio: 16 / 9;
+        }
+  
+        .stats {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 2rem;
+  
+            li {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+  
+        .records {
+            display: grid;
+            grid-template-columns: max-content 2fr 1fr max-content;
+            align-items: center;
+            gap: 1rem;
+  
+            .link {
+                width: 2rem;
+  
+                a {
+                    height: 2rem;
+                    width: 2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: background-color;
+  
+                    &:hover {
+                        background-color: rgba(#000, 0.1);
+                    }
+                }
+            }
+        }
+    }
+  
+    .meta {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+  
+        .editors {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+  
+            li {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+  
+                img {
+                    height: 1.25rem;
+                }
+            }
+        }
+    }
+  }

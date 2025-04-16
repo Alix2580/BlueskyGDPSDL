@@ -1,0 +1,156 @@
+@use '../_theme' as t;
+
+.nav {
+    display: flex;
+    column-gap: 2.5rem;
+    height: 100%;
+    align-items: center;
+    position: relative;
+    
+    // Modern nav tabs with smoother transitions
+    .nav__tab {
+        height: 100%;
+        padding-inline: 1.25rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: t.$on-primary-color;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 3px 3px 0 0;
+            opacity: 0.9;
+        }
+        
+        &.router-link-active {
+            color: t.$on-primary-color;
+            
+            &::after {
+                transform: scaleX(1);
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            }
+        }
+        
+        &:hover {
+            color: t.$on-primary-color;
+            
+            &::after {
+                transform: scaleX(0.7);
+            }
+        }
+    }
+    
+    // Modernized actions area
+    .nav__actions {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1.25rem;
+        
+        // Improved icon buttons
+        .nav__icon {
+            height: 2.75rem;
+            width: 2.75rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 200ms ease;
+            
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.25);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+            
+            &:active {
+                transform: translateY(0);
+            }
+            
+            img {
+                height: 1.35rem;
+                transition: transform 150ms ease;
+            }
+            
+            &:hover img {
+                transform: scale(1.1);
+            }
+        }
+        
+        // Enhanced call-to-action button
+        .nav__cta {
+            padding: 0.85rem 1.4rem;
+            background-color: t.$on-primary-color;
+            color: t.$primary-color;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 0.6rem;
+                background: linear-gradient(to bottom, 
+                              rgba(255, 255, 255, 0.1) 0%, 
+                              rgba(255, 255, 255, 0) 100%);
+                opacity: 0;
+                transition: opacity 250ms ease;
+            }
+            
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25),
+                            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+                
+                &::after {
+                    opacity: 1;
+                }
+            }
+            
+            &:active {
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+    
+    // Add responsive behavior
+    @media (max-width: 768px) {
+        column-gap: 1rem;
+        
+        .nav__tab {
+            padding-inline: 0.75rem;
+        }
+        
+        .nav__actions {
+            gap: 0.75rem;
+            
+            .nav__cta {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    }
+}
