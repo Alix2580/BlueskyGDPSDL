@@ -2,7 +2,7 @@ import routes from './routes.js';
 
 const app = Vue.createApp({});
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory('/CP9DL/'),
+    history: VueRouter.createWebHashHistory(),
     routes,
 });
 

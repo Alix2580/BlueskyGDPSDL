@@ -49,7 +49,12 @@ export function round(num) {
  */
 export async function getListLength() {
     try {
-        const response = await fetch('/data/_list.json');
+        // Adjust the fetch path to use the same logic
+        const basePath = window.location.pathname.includes('/CP9DL') ? 
+            '/CP9DL/data/_list.json' : // GitHub Pages path
+            '/data/_list.json';        // Local development path
+            
+        const response = await fetch(basePath);
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }

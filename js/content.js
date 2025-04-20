@@ -1,6 +1,8 @@
 import { round, score, getListLength } from './score.js';
 
-const dir = './data';
+const dir = window.location.pathname.includes('/CP9DL') ? 
+    '/CP9DL/data' : // GitHub Pages path
+    './data';
 
 export async function fetchList() {
     const listResult = await fetch(`${dir}/_list.json`);
