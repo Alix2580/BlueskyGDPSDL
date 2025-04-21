@@ -1,63 +1,31 @@
 import { round, score, getListLength } from './score.js';
 
-const isGitHubPages = window.location.hostname.includes('github.io');
-const dir = isGitHubPages ? '/CP9DL/data' : './data';
-
-console.log(`Running on ${isGitHubPages ? 'GitHub Pages' : 'local environment'}`);
-console.log(`Data directory path: ${dir}`);
+const dir = './data';
 
 export async function fetchList() {
-    try {
-        const listPath = `${dir}/_list.json`;
-        console.log(`Fetching list from: ${listPath}`);
-        
-        const listResult = await fetch(listPath);
-        if (!listResult.ok) {
-            console.error(`Failed to fetch list: ${listResult.status} ${listResult.statusText}`);
-            throw new Error(`Failed to fetch list: ${listResult.status} ${listResult.statusText}`);
-        }
-        
-        const list = await listResult.json();
-        console.log(`Successfully loaded list with ${list.length} levels`);
-        
-        const fetchLevel = async (path) => {
-            try {
-                const levelPath = `${dir}/${path}.json`;
-                console.log(`Fetching level from: ${levelPath}`);
-                
-                const levelResult = await fetch(levelPath);
-                if (!levelResult.ok) {
-                    console.error(`Failed to fetch level ${path}: ${levelResult.status} ${levelResult.statusText}`);
-                    throw new Error(`Failed to fetch level: ${levelResult.statusText}`);
-                }
-                
-                const level = await levelResult.json();
-                
-                const filteredRecords = level.records.filter(record => record.percent === 100);
-                
-                return {
-                    ...level,
-                    path,
-                    records: filteredRecords,
-                    percentToQualify: 100 
-                };
-            } catch (error) {
-                console.error(`Error fetching level ${path}:`, error);
-                return {
-                    name: `Error loading ${path}`,
-                    path,
-                    records: [],
-                    percentToQualify: 100,
-                    error: true
-                };
-            }
-        };
-        
-        return await Promise.all(list.map(fetchLevel));
-    } catch (error) {
-        console.error('Error in fetchList:', error);
-        return [];
+    const listResult = await fetch(`${dir}/_list.json`);
+    if (!listResult.ok) {
+        throw new Error(`Failed to fetch list: ${listResult.statusText}`);
     }
+    const list = await listResult.json();
+    const fetchLevel = async (path) => {
+        const levelResult = await fetch(`${dir}/${path}.json`);
+        if (!levelResult.ok) {
+            throw new Error(`Failed to fetch level: ${levelResult.statusText}`);
+        }
+        const level = await levelResult.json();
+        
+        // Filter records to only include 100% completions
+        const filteredRecords = level.records.filter(record => record.percent === 100);
+        
+        return {
+            ...level,
+            path,
+            records: filteredRecords,
+            percentToQualify: 100 // Set all levels to require 100%
+        };
+    };
+    return await Promise.all(list.map(fetchLevel));
 }
 
 export async function fetchLeaderboard() {
@@ -66,6 +34,7 @@ export async function fetchLeaderboard() {
 
     const scoreMap = {};
     list.forEach((level, rank) => {
+        // Verification
         scoreMap[level.verifier] ??= {
             verified: [],
             completed: [],
@@ -78,7 +47,9 @@ export async function fetchLeaderboard() {
             link: level.verification,
         });
 
+        // Records (only 100%)
         level.records.forEach((record) => {
+            // Skip non-100% records
             if (record.percent !== 100) return;
             
             scoreMap[record.user] ??= {
@@ -96,6 +67,7 @@ export async function fetchLeaderboard() {
         });
     });
 
+    // Wrap in extra Object containing the user and total score
     const res = Object.entries(scoreMap).map(([user, scores]) => {
         const { verified, completed } = scores;
         const total = [verified, completed]
@@ -109,5 +81,6 @@ export async function fetchLeaderboard() {
         };
     });
 
+    // Sort by total score
     return res.sort((a, b) => b.total - a.total);
 }
