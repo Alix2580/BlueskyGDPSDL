@@ -49,7 +49,7 @@ export function round(num) {
  */
 export async function getListLength() {
     try {
-        const response = await fetch('/data/_list.json');
+        const response = await fetch('/data/list.json');
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }
