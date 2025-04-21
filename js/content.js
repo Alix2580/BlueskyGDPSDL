@@ -1,15 +1,27 @@
 import { round, score, getListLength } from './score.js';
 
-const dir = './data';
+const getBasePath = () => {
+    const basePath = window.location.pathname.split('/').slice(0, -1).join('/');
+    return basePath === '/' ? './data' : `${basePath}/data`;
+};
+
+const dir = getBasePath();
+console.log('Data directory path:', dir);
 
 export async function fetchList() {
-    const listResult = await fetch(`${dir}/list.json`);
+    const listUrl = `${dir}/list.json`;
+    console.log('Fetching list from:', listUrl);
+    
+    const listResult = await fetch(listUrl);
     if (!listResult.ok) {
         throw new Error(`Failed to fetch list: ${listResult.statusText}`);
     }
     const list = await listResult.json();
     const fetchLevel = async (path) => {
-        const levelResult = await fetch(`${dir}/${path}.json`);
+        const levelUrl = `${dir}/${path}.json`;
+        console.log('Fetching level from:', levelUrl);
+        
+        const levelResult = await fetch(levelUrl);
         if (!levelResult.ok) {
             throw new Error(`Failed to fetch level: ${levelResult.statusText}`);
         }
