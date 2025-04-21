@@ -144,9 +144,15 @@ export default {
         }
     },
     async mounted() {
-        this.list = await fetchList();
-        this.listLength = await getListLength();
-        this.loading = false;
+        try {
+            this.list = await fetchList();
+            this.listLength = await getListLength();
+        } catch (error) {
+            console.error('Error loading data:', error);
+            this.list = []; // Set empty list on error
+        } finally {
+            this.loading = false;
+        }
     },
     methods: {
         embed,

@@ -1,8 +1,14 @@
 import { round, score, getListLength } from './score.js';
 
 const getBasePath = () => {
-    const basePath = window.location.pathname.split('/').slice(0, -1).join('/');
-    return basePath === '/' ? './data' : `${basePath}/data`;
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const repoName = 'CP9DL';
+    
+    if (isGitHubPages) {
+        return `/${repoName}/data`;
+    }
+    
+    return './data';
 };
 
 const dir = getBasePath();
@@ -12,32 +18,46 @@ export async function fetchList() {
     const listUrl = `${dir}/list.json`;
     console.log('Fetching list from:', listUrl);
     
-    const listResult = await fetch(listUrl);
-    if (!listResult.ok) {
-        throw new Error(`Failed to fetch list: ${listResult.statusText}`);
-    }
-    const list = await listResult.json();
-    const fetchLevel = async (path) => {
-        const levelUrl = `${dir}/${path}.json`;
-        console.log('Fetching level from:', levelUrl);
-        
-        const levelResult = await fetch(levelUrl);
-        if (!levelResult.ok) {
-            throw new Error(`Failed to fetch level: ${levelResult.statusText}`);
+    try {
+        const listResult = await fetch(listUrl);
+        if (!listResult.ok) {
+            console.error(`Failed to fetch list: ${listResult.status} ${listResult.statusText}`);
+            throw new Error(`Failed to fetch list: ${listResult.statusText}`);
         }
-        const level = await levelResult.json();
+        const list = await listResult.json();
         
-        // Filter records to only include 100% completions
-        const filteredRecords = level.records.filter(record => record.percent === 100);
-        
-        return {
-            ...level,
-            path,
-            records: filteredRecords,
-            percentToQualify: 100 // Set all levels to require 100%
+        const fetchLevel = async (path) => {
+            const levelUrl = `${dir}/${path}.json`;
+            console.log('Fetching level from:', levelUrl);
+            
+            try {
+                const levelResult = await fetch(levelUrl);
+                if (!levelResult.ok) {
+                    console.error(`Failed to fetch level: ${levelResult.status} ${levelResult.statusText}`);
+                    return null; 
+                }
+                const level = await levelResult.json();
+                
+                const filteredRecords = level.records.filter(record => record.percent === 100);
+                
+                return {
+                    ...level,
+                    path,
+                    records: filteredRecords,
+                    percentToQualify: 100 
+                };
+            } catch (error) {
+                console.error(`Error fetching level ${path}:`, error);
+                return null; 
+            }
         };
-    };
-    return await Promise.all(list.map(fetchLevel));
+
+        const levels = await Promise.all(list.map(fetchLevel));
+        return levels.filter(level => level !== null);
+    } catch (error) {
+        console.error('Error fetching list:', error);
+        return []; 
+    }
 }
 
 export async function fetchLeaderboard() {
@@ -46,7 +66,6 @@ export async function fetchLeaderboard() {
 
     const scoreMap = {};
     list.forEach((level, rank) => {
-        // Verification
         scoreMap[level.verifier] ??= {
             verified: [],
             completed: [],
@@ -59,9 +78,7 @@ export async function fetchLeaderboard() {
             link: level.verification,
         });
 
-        // Records (only 100%)
         level.records.forEach((record) => {
-            // Skip non-100% records
             if (record.percent !== 100) return;
             
             scoreMap[record.user] ??= {
@@ -79,7 +96,6 @@ export async function fetchLeaderboard() {
         });
     });
 
-    // Wrap in extra Object containing the user and total score
     const res = Object.entries(scoreMap).map(([user, scores]) => {
         const { verified, completed } = scores;
         const total = [verified, completed]
