@@ -3,7 +3,7 @@ import { round, score, getListLength } from './score.js';
 const dir = './data';
 
 export async function fetchList() {
-    const listResult = await fetch(`${dir}/_list.json`);
+    const listResult = await fetch(`${dir}/list.json`);
     if (!listResult.ok) {
         throw new Error(`Failed to fetch list: ${listResult.statusText}`);
     }
