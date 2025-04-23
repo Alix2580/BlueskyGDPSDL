@@ -49,22 +49,21 @@ export function round(num) {
  */
 export async function getListLength() {
     try {
-        // Use the same path calculation as in content.js
         const isGitHubPages = window.location.hostname.includes('github.io');
-        const repoName = 'CP9DL'; // Your repository name
+        const repoName = 'CP9DL';
         const basePath = isGitHubPages ? `/${repoName}/data` : './data';
         
         const response = await fetch(`${basePath}/list.json`);
         
         if (!response.ok) {
             console.warn(`HTTP error ${response.status} getting list length, using default`);
-            return 25; // Default fallback
+            return 25; 
         }
         
         const listData = await response.json();
         return listData.length;
     } catch (error) {
         console.error('Error loading list data:', error);
-        return 25; // Default fallback
+        return 25; 
     }
 }
