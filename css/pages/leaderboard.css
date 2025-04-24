@@ -9,6 +9,34 @@
     grid-template-columns: 1fr;
   }
 }
+.page-leaderboard .level-type {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  vertical-align: middle;
+}
+.page-leaderboard .level-type.demon {
+  background-color: rgba(255, 0, 0, 0.2);
+  color: rgba(255, 120, 120, 0.9);
+}
+.page-leaderboard .level-type.challenge {
+  background-color: rgba(0, 150, 255, 0.2);
+  color: rgba(120, 200, 255, 0.9);
+}
+.page-leaderboard .no-link {
+  width: 2.5rem;
+  display: inline-block;
+}
+.page-leaderboard .no-video, .page-leaderboard .no-records {
+  text-align: center;
+  padding: 2rem 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
 .page-leaderboard .board-container,
 .page-leaderboard .player-container {
   padding: 2.5rem;

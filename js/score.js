@@ -2,24 +2,31 @@
  * Numbers of decimal digits to round to
  */
 const SCALE = 1;
-const MAX_SCORE = 500;
-const MIN_SCORE = 1;
+const DEMON_MAX_SCORE = 500;
+const DEMON_MIN_SCORE = 1;
+const CHALLENGE_MAX_SCORE = 200;
+const CHALLENGE_MIN_SCORE = 1;
 
 /**
  * Calculate the score awarded for completing a list level
  * @param {Number} rank Position on the list
  * @param {Number} listLength Total number of levels in the list
+ * @param {Boolean} isChallenge Whether this is a challenge list level
  * @returns {Number}
  */
-export function score(rank, listLength) {
+export function score(rank, listLength, isChallenge = false) {
     // If rank is beyond the list length, return 0
     if (rank > listLength) {
         return 0;
     }
 
+    // Select max/min score based on list type
+    const maxScore = isChallenge ? CHALLENGE_MAX_SCORE : DEMON_MAX_SCORE;
+    const minScore = isChallenge ? CHALLENGE_MIN_SCORE : DEMON_MIN_SCORE;
+
     // Calculate base score for the level based on its position in the list
     // Linear distribution from MAX_SCORE to MIN_SCORE
-    const baseScore = MAX_SCORE - ((rank - 1) / Math.max(1, listLength - 1)) * (MAX_SCORE - MIN_SCORE);
+    const baseScore = maxScore - ((rank - 1) / Math.max(1, listLength - 1)) * (maxScore - minScore);
     
     return round(baseScore);
 }
@@ -65,5 +72,30 @@ export async function getListLength() {
     } catch (error) {
         console.error('Error loading list data:', error);
         return 25; 
+    }
+}
+
+/**
+ * Initializes the challenge list length from the challenge-list.json file
+ * @returns {Promise<Number>} The length of the challenge list
+ */
+export async function getChallengeListLength() {
+    try {
+        const isGitHubPages = window.location.hostname.includes('github.io');
+        const repoName = 'CP9DL';
+        const basePath = isGitHubPages ? `/${repoName}/data` : './data';
+        
+        const response = await fetch(`${basePath}/challenge-list.json`);
+        
+        if (!response.ok) {
+            console.warn(`HTTP error ${response.status} getting challenge list length, using default`);
+            return 10; 
+        }
+        
+        const listData = await response.json();
+        return listData.length;
+    } catch (error) {
+        console.error('Error loading challenge list data:', error);
+        return 10; 
     }
 }

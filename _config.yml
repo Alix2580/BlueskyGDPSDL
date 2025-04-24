@@ -1,0 +1,3 @@
+exclude:
+  - data/list.json
+  - data/challenge-list.json 

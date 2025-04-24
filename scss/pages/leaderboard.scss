@@ -8,6 +8,39 @@
       grid-template-columns: 1fr;
     }
   
+    .level-type {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      margin-left: 0.5rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      vertical-align: middle;
+      
+      &.demon {
+        background-color: rgba(255, 0, 0, 0.2);
+        color: rgba(255, 120, 120, 0.9);
+      }
+      
+      &.challenge {
+        background-color: rgba(0, 150, 255, 0.2);
+        color: rgba(120, 200, 255, 0.9);
+      }
+    }
+    
+    .no-link {
+      width: 2.5rem;
+      display: inline-block;
+    }
+    
+    .no-video, .no-records {
+      text-align: center;
+      padding: 2rem 0;
+      color: rgba(255, 255, 255, 0.5);
+      font-style: italic;
+    }
+  
     .board-container,
     .player-container {
       padding: 2.5rem;

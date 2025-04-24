@@ -1,5 +1,4 @@
 import { fetchLeaderboard } from '../content.js';
-import { score, getListLength } from '../score.js';
 import { localize } from '../util.js';
 
 import Spinner from '../components/Spinner.js';
@@ -11,8 +10,7 @@ export default {
     data: () => ({
         leaderboard: [],
         loading: true,
-        selected: 0,
-        listLength: 25
+        selected: 0
     }),
     template: `
         <main v-if="loading">
@@ -44,11 +42,15 @@ export default {
                         <template v-if="entry.verified && entry.verified.length > 0">
                             <template v-for="score in entry.verified">
                                 <p class="rank">#{{ score.rank }}</p>
-                                <p>{{ score.level }}</p>
+                                <p>
+                                    {{ score.level }}
+                                    <span class="level-type" :class="score.type">{{ score.type }}</span>
+                                </p>
                                 <p class="score">+{{ localize(score.score) }}</p>
-                                <a :href="score.link">
+                                <a v-if="score.link && score.link !== 'x' && score.link !== '???'" :href="score.link">
                                     <img src="./assets/video.svg" alt="Video" style="filter: invert(1)">
                                 </a>
+                                <span v-else class="no-link"></span>
                             </template>
                         </template>
                         <p v-else class="no-records">No Verifications</p>
@@ -58,11 +60,15 @@ export default {
                         <template v-if="entry.completed && entry.completed.length > 0">
                             <template v-for="score in entry.completed">
                                 <p class="rank">#{{ score.rank }}</p>
-                                <p>{{ score.level }}</p>
+                                <p>
+                                    {{ score.level }}
+                                    <span class="level-type" :class="score.type">{{ score.type }}</span>
+                                </p>
                                 <p class="score">+{{ localize(score.score) }}</p>
-                                <a :href="score.link">
+                                <a v-if="score.link && score.link !== 'x' && score.link !== '???'" :href="score.link">
                                     <img src="./assets/video.svg" alt="Video" style="filter: invert(1)">
                                 </a>
+                                <span v-else class="no-link"></span>
                             </template>
                         </template>
                         <p v-else class="no-records">No Records</p>
@@ -73,18 +79,18 @@ export default {
     `,
     computed: {
         entry() {
-            return this.leaderboard[this.selected];
+            return this.leaderboard[this.selected] || {
+                user: 'Loading...',
+                verified: [],
+                completed: []
+            };
         },
     },
     async mounted() {
         this.leaderboard = await fetchLeaderboard();
-        this.listLength = await getListLength();
         this.loading = false;
     },
     methods: {
-        localize,
-        calculateScore(rank) {
-            return score(rank, this.listLength);
-        }
+        localize
     },
 };

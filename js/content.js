@@ -1,4 +1,4 @@
-import { round, score, getListLength } from './score.js';
+import { round, score, getListLength, getChallengeListLength } from './score.js';
 
 const getBasePath = () => {
     const isGitHubPages = window.location.hostname.includes('github.io');
@@ -44,7 +44,8 @@ export async function fetchList() {
                     ...level,
                     path,
                     records: filteredRecords,
-                    percentToQualify: 100 
+                    percentToQualify: 100,
+                    type: 'demon'
                 };
             } catch (error) {
                 console.error(`Error fetching level ${path}:`, error);
@@ -60,12 +61,58 @@ export async function fetchList() {
     }
 }
 
+export async function fetchChallengeList() {
+    const listUrl = `${dir}/challenge-list.json`;
+    console.log('Fetching challenge list from:', listUrl);
+    
+    try {
+        const listResult = await fetch(listUrl);
+        if (!listResult.ok) {
+            console.error(`Failed to fetch challenge list: ${listResult.status} ${listResult.statusText}`);
+            throw new Error(`Failed to fetch challenge list: ${listResult.statusText}`);
+        }
+        const list = await listResult.json();
+        
+        const fetchLevel = async (path) => {
+            const levelUrl = `${dir}/challenges/${path}.json`;
+            console.log('Fetching challenge level from:', levelUrl);
+            
+            try {
+                const levelResult = await fetch(levelUrl);
+                if (!levelResult.ok) {
+                    console.error(`Failed to fetch challenge: ${levelResult.status} ${levelResult.statusText}`);
+                    return null; 
+                }
+                const level = await levelResult.json();
+                
+                return {
+                    ...level,
+                    path,
+                    type: 'challenge'
+                };
+            } catch (error) {
+                console.error(`Error fetching challenge ${path}:`, error);
+                return null; 
+            }
+        };
+
+        const levels = await Promise.all(list.map(fetchLevel));
+        return levels.filter(level => level !== null);
+    } catch (error) {
+        console.error('Error fetching challenge list:', error);
+        return []; 
+    }
+}
+
 export async function fetchLeaderboard() {
-    const list = await fetchList();
-    const listLength = list.length;
+    const [demonList, challengeList] = await Promise.all([fetchList(), fetchChallengeList()]);
+    const listLength = demonList.length;
+    const challengeListLength = challengeList.length;
 
     const scoreMap = {};
-    list.forEach((level, rank) => {
+    
+    // Process demon list
+    demonList.forEach((level, rank) => {
         scoreMap[level.verifier] ??= {
             verified: [],
             completed: [],
@@ -74,8 +121,9 @@ export async function fetchLeaderboard() {
         verified.push({
             rank: rank + 1,
             level: level.name,
-            score: score(rank + 1, listLength),
+            score: score(rank + 1, listLength, false),
             link: level.verification,
+            type: 'demon'
         });
 
         level.records.forEach((record) => {
@@ -90,8 +138,43 @@ export async function fetchLeaderboard() {
             completed.push({
                 rank: rank + 1,
                 level: level.name,
-                score: score(rank + 1, listLength),
+                score: score(rank + 1, listLength, false),
                 link: record.link,
+                type: 'demon'
+            });
+        });
+    });
+    
+    // Process challenge list
+    challengeList.forEach((challenge, rank) => {
+        scoreMap[challenge.verifier] ??= {
+            verified: [],
+            completed: [],
+        };
+        const { verified } = scoreMap[challenge.verifier];
+        verified.push({
+            rank: rank + 1,
+            level: challenge.name,
+            score: score(rank + 1, challengeListLength, true),
+            link: challenge.verification,
+            type: 'challenge'
+        });
+
+        challenge.records?.forEach((record) => {
+            if (record.percent < challenge.percentToQualify) return;
+            
+            scoreMap[record.user] ??= {
+                verified: [],
+                completed: [],
+            };
+            const { completed } = scoreMap[record.user];
+            
+            completed.push({
+                rank: rank + 1,
+                level: challenge.name,
+                score: score(rank + 1, challengeListLength, true),
+                link: record.link,
+                type: 'challenge'
             });
         });
     });
