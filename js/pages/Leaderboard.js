@@ -1,3 +1,8 @@
+import { fetchLeaderboard } from '../content.js';
+import { localize } from '../util.js';
+
+import Spinner from '../components/Spinner.js';
+
 export default {
     components: {
         Spinner,
@@ -12,8 +17,8 @@ export default {
             <Spinner></Spinner>
         </main>
         <main v-else class="page-leaderboard">
-            <div class="board-container" style="overflow-x: auto;">
-                <table class="list" style="min-width: 600px; white-space: nowrap;">
+            <div class="board-container">
+                <table class="list">
                     <tr v-for="(ientry, i) in leaderboard" class="list__item" :class="{ 'list__item--active': selected == i }">
                         <td class="list__rank">
                             <p class="type-label-lg">#{{ i + 1 }}</p>
