@@ -181,10 +181,3 @@
 }
 
 /*# sourceMappingURL=leaderboard.css.map */
-
-.page-leaderboard .list {
-  display: table;
-  min-width: 100%; /* make it stretch horizontally */
-  white-space: nowrap;
-}
-
