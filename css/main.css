@@ -52,3 +52,30 @@ main > div {
 }
 
 /*# sourceMappingURL=main.css.map */
+
+/* Global custom scrollbar */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background); /* match site background */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444;  /* thumb color */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666;  /* lighter on hover */
+}
+
+/* Firefox */
+html, body, * {
+  scrollbar-width: thin;                        /* thinner scrollbar */
+  scrollbar-color: #444 var(--color-background); /* thumb | track */
+}
+
