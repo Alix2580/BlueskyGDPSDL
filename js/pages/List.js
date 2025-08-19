@@ -110,10 +110,10 @@ export default {
                     </ul>
                     <h3>Submission Requirements</h3>
                     <p>
-                        Achieved the record without using hacks (however, FPS bypass is allowed, up to 360fps)
+                        Achieved the record without using hacks (however, FPS bypass is allowed, up to 480fps)
                     </p>
                     <p>
-                        Achieved <strong>100% completion</strong> on the level that is listed on the site - please check the level ID before you submit a record
+                        Achieved <strong>100% Completion</strong> on the level that is listed on the site - please check the level ID before you submit a record
                     </p>
                     <p>
                         Have either source audio or clicks/taps in the video. Edited audio only does not count
@@ -121,10 +121,15 @@ export default {
                     <p>
                         The recording must have a previous attempt and entire death animation shown before the completion, unless the completion is on the first attempt. Everyplay records are exempt from this
                     </p>
-                    <p>
-                        Do not use secret routes or bug routes
+                     <p>
+                        Click Between Frames is allowed
                     </p>
-                    <h4>Submit in our discord server!</h4>
+                      <p>
+                        If you beat a level from 0% while in practice mode, your record will still be taken under consideration and not denied instantly
+                    </p>
+                    <p>
+                        Do not use secret routes or bug routes. If you find one, report it to the level's creator
+                    </p>
                 </div>
             </div>
         </main>
@@ -169,4 +174,5 @@ export default {
         }
     },
 };
+
 
