@@ -89,15 +89,23 @@ export default {
                     <ul class="editors">
                         <li>
                             <img src="./assets/crown.svg" alt="Owner" style="filter: invert(1)">
-                            <p>NK87</p>
+                            <p>DubbyBall</p>
                         </li>
                         <li>
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>hamptonix</p>
+                            <p>shib</p>
+                        </li>
+                        <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>Furrious</p>
+                        </li>
+                        <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>Firelia</p>
                         </li>
                         <li>
                             <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
-                            <p>lostsucks</p>
+                            <p>Luna</p>
                         </li>
                     </ul>
                     <h3>Submission Requirements</h3>
@@ -161,3 +169,4 @@ export default {
         }
     },
 };
+
