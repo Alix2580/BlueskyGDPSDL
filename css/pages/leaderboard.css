@@ -175,3 +175,17 @@
 }
 
 /*# sourceMappingURL=leaderboard.css.map */
+
+.board-container {
+    overflow-x: auto; /* allows horizontal scrolling if content is too wide */
+}
+
+.list {
+    min-width: 600px;  /* ensures table doesn’t shrink too much */
+    white-space: nowrap; /* prevents text from wrapping onto multiple lines */
+}
+
+.list__level button {
+    text-align: left; /* optional: keeps text aligned nicely */
+}
+
