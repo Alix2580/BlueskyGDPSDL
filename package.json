@@ -2,8 +2,8 @@
   "name": "tsl",
   "version": "1.6.0",
   "scripts": {
-    "build": "sass scss:public/css",
-    "dev": "sass --watch scss:public/css",
+    "build": "mkdir -p css && sass scss:css",
+    "dev": "mkdir -p css && sass --watch scss:css",
     "format": "prettier --write ."
   },
   "devDependencies": {
