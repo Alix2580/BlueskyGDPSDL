@@ -2,8 +2,8 @@
  * Numbers of decimal digits to round to
  */
 const SCALE = 1;
-const DEMON_MAX_SCORE = 500;
-const DEMON_MIN_SCORE = 1;
+const DEMON_MAX_SCORE = 350;
+const DEMON_MIN_SCORE = 18.71;
 const CHALLENGE_MAX_SCORE = 200;
 const CHALLENGE_MIN_SCORE = 1;
 
@@ -24,11 +24,17 @@ export function score(rank, listLength, isChallenge = false) {
     const maxScore = isChallenge ? CHALLENGE_MAX_SCORE : DEMON_MAX_SCORE;
     const minScore = isChallenge ? CHALLENGE_MIN_SCORE : DEMON_MIN_SCORE;
 
-    // Calculate base score for the level based on its position in the list
-    // Linear distribution from MAX_SCORE to MIN_SCORE
-    const baseScore = maxScore - ((rank - 1) / Math.max(1, listLength - 1)) * (maxScore - minScore);
-    
-    return round(baseScore);
+    if (!isChallenge) {
+        // Exponential decay for demon scores
+        // Top-ranked = maxScore, bottom-ranked = minScore
+        const exponent = (rank - 1) / Math.max(1, listLength - 1); // 0 to 1
+        const baseScore = minScore * Math.pow(maxScore / minScore, 1 - exponent);
+        return round(baseScore);
+    } else {
+        // Linear for challenge lists (unchanged)
+        const baseScore = maxScore - ((rank - 1) / Math.max(1, listLength - 1)) * (maxScore - minScore);
+        return round(baseScore);
+    }
 }
 
 /**
@@ -41,12 +47,12 @@ export function round(num) {
     if (!('' + num).includes('e')) {
         return +(Math.round(num + 'e+' + SCALE) + 'e-' + SCALE);
     }
-    
+
     // Handle numbers in scientific notation
     const [coefficient, exponent] = ('' + num).split('e').map(Number);
     const adjustedExponent = exponent + SCALE;
     const sign = adjustedExponent > 0 ? '+' : '';
-    
+
     return +(Math.round(coefficient + 'e' + sign + adjustedExponent) + 'e-' + SCALE);
 }
 
@@ -59,14 +65,14 @@ export async function getListLength() {
         const isGitHubPages = window.location.hostname.includes('github.io');
         const repoName = 'CP9DL';
         const basePath = isGitHubPages ? `/${repoName}/data` : './data';
-        
+
         const response = await fetch(`${basePath}/list.json`);
-        
+
         if (!response.ok) {
             console.warn(`HTTP error ${response.status} getting list length, using default`);
             return 25; 
         }
-        
+
         const listData = await response.json();
         return listData.length;
     } catch (error) {
@@ -84,14 +90,14 @@ export async function getChallengeListLength() {
         const isGitHubPages = window.location.hostname.includes('github.io');
         const repoName = 'CP9DL';
         const basePath = isGitHubPages ? `/${repoName}/data` : './data';
-        
+
         const response = await fetch(`${basePath}/challenge-list.json`);
-        
+
         if (!response.ok) {
             console.warn(`HTTP error ${response.status} getting challenge list length, using default`);
             return 10; 
         }
-        
+
         const listData = await response.json();
         return listData.length;
     } catch (error) {
