@@ -1,83 +1,60 @@
 .page-leaderboard {
   max-width: 96rem;
   margin: 0 auto;
+  display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 3rem;
 }
+
 @media (max-width: 768px) {
   .page-leaderboard {
     grid-template-columns: 1fr;
   }
 }
-.page-leaderboard .level-type {
-  display: inline-block;
-  font-size: 0.7rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.25rem;
-  margin-left: 0.5rem;
-  text-transform: uppercase;
-  font-weight: bold;
-  vertical-align: middle;
-}
-.page-leaderboard .level-type.demon {
-  background-color: rgba(255, 0, 0, 0.2);
-  color: rgba(255, 120, 120, 0.9);
-}
-.page-leaderboard .level-type.challenge {
-  background-color: rgba(0, 150, 255, 0.2);
-  color: rgba(120, 200, 255, 0.9);
-}
-.page-leaderboard .no-link {
-  width: 2.5rem;
-  display: inline-block;
-}
-.page-leaderboard .no-video, .page-leaderboard .no-records {
-  text-align: center;
-  padding: 2rem 0;
-  color: rgba(255, 255, 255, 0.5);
-  font-style: italic;
-}
-.page-leaderboard .board-container,
-.page-leaderboard .player-container {
+
+/* Make board-container horizontally scrollable if table is too wide */
+.page-leaderboard .board-container {
   padding: 2.5rem;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  overflow-x: auto;       /* allows horizontal scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Allow horizontal scrolling for long leaderboards */
-.page-leaderboard .board-container {
-  height: max-content;
-  position: sticky;
-  top: 2rem;
-  overflow-x: auto;
-}
-
+/* Prevent table cells from wrapping */
 .page-leaderboard .list {
   width: 100%;
-  min-width: 700px; /* prevent shrinking too much */
+  min-width: max-content; /* table can stretch to fit content */
   border-collapse: collapse;
-  white-space: nowrap; /* prevent text wrapping */
+  white-space: nowrap;    /* prevents long names from wrapping */
 }
+
+/* Keep existing list item styles */
 .page-leaderboard .list__item {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
 }
+
 .page-leaderboard .list__item:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
+
 .page-leaderboard .list__item--active {
   background-color: rgba(255, 255, 255, 0.1);
   border-left: 4px solid rgba(118, 168, 255, 0.8);
 }
+
 .page-leaderboard .list__item td {
   padding: 0.8rem 1rem;
 }
+
 .page-leaderboard .list__rank {
   color: rgba(118, 168, 255, 0.8);
   font-weight: bold;
 }
+
 .page-leaderboard .list__level button {
   background: none;
   border: none;
@@ -88,96 +65,24 @@
   width: 100%;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  white-space: nowrap; /* prevent button text from wrapping */
 }
+
 .page-leaderboard .list__level button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
-.page-leaderboard .list__level .player-tags {
-  display: none;
+
+/* Player container */
+.page-leaderboard .player-container {
+  padding: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
+
+/* Keep existing player styles as-is */
 .page-leaderboard .player {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   width: 100%;
 }
-.page-leaderboard .player h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  position: relative;
-}
-.page-leaderboard .player h1:after {
-  content: "";
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 6rem;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(118, 168, 255, 0.8), transparent);
-}
-.page-leaderboard .player h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: rgba(118, 168, 255, 0.8);
-  position: relative;
-  padding-left: 1rem;
-}
-.page-leaderboard .player h2:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 1.2em;
-  background-color: rgba(118, 168, 255, 0.8);
-  border-radius: 2px;
-}
-.page-leaderboard .player .table {
-  display: grid;
-  grid-template-columns: max-content 2fr 1fr max-content;
-  grid-auto-rows: max-content;
-  align-items: center;
-  column-gap: 2rem;
-  background-color: rgba(255, 255, 255, 0.02);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-}
-.page-leaderboard .player .table p {
-  padding-block: 1rem;
-}
-.page-leaderboard .player .table .rank {
-  justify-self: end;
-  color: rgba(118, 168, 255, 0.8);
-  font-weight: bold;
-}
-.page-leaderboard .player .table .score {
-  justify-self: end;
-  color: rgba(118, 168, 255, 0.8);
-  font-weight: bold;
-}
-.page-leaderboard .player .table a {
-  height: 2.5rem;
-  width: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  background-color: rgba(68, 68, 255, 0.1);
-}
-.page-leaderboard .player .table a:hover {
-  background-color: rgba(118, 168, 255, 0.8);
-  transform: scale(1.1);
-}
-.page-leaderboard .player .table a img {
-  height: 1.2rem;
-  width: 1.2rem;
-}
-.page-leaderboard .player .table template:nth-child(4n+1) ~ p,
-.page-leaderboard .player .table template:nth-child(4n+1) ~ a {
-  background-color: rgba(68, 68, 255, 0.03);
-}
-
-/*# sourceMappingURL=leaderboard.css.map */
