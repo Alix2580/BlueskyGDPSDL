@@ -103,6 +103,10 @@ export default {
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
                             <p>Firelia</p>
                         </li>
+                          <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>Hexy</p>
+                        </li>
                         <li>
                             <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
                             <p>Luna</p>
@@ -174,6 +178,7 @@ export default {
         }
     },
 };
+
 
 
 
