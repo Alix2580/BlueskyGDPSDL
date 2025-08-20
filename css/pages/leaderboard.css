@@ -214,4 +214,18 @@
   max-width: 100%;
 }
 
+.page-leaderboard .list {
+  table-layout: auto !important; /* allow natural column sizing */
+  width: 100%;
+}
+
+.page-leaderboard .list__level {
+  white-space: nowrap; /* prevent wrapping */
+}
+
+.page-leaderboard .list__level button {
+  display: inline-block;
+  white-space: nowrap;
+  width: auto; /* don’t shrink */
+}
 
