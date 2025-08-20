@@ -206,3 +206,13 @@
 }
 
 /*# sourceMappingURL=leaderboard.css.map */
+
+.page-leaderboard .list__level .type-label-lg {
+  white-space: nowrap;      /* keep names on one line */
+  overflow: hidden;         /* hide overflow text */
+  text-overflow: ellipsis;  /* show "…" if clipped */
+  display: inline-block;    /* needed for ellipsis */
+  max-width: 180px;         /* adjust based on layout */
+  vertical-align: middle;   /* align neatly in row */
+}
+
