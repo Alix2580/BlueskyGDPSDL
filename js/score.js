@@ -105,4 +105,3 @@ export async function getChallengeListLength() {
         return 10; 
     }
 }
-
