@@ -90,11 +90,11 @@ export default {
                     <ul class="editors">
                         <li>
                             <img src="./assets/crown.svg" alt="Owner" style="filter: invert(1)">
-                            <p>NK87</p>
+                            <p>DubbyBall</p>
                         </li>
                         <li>
                             <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
-                            <p>lostsucks</p>
+                            <p>Luna</p>
                         </li>
                     </ul>
                     <h3>Challenge Submission Requirements</h3>
