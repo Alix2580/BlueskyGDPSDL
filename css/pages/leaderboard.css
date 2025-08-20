@@ -207,25 +207,35 @@
 
 /*# sourceMappingURL=leaderboard.css.map */
 
-.page-leaderboard .list__level button span.type-label-lg {
-  white-space: nowrap !important;
-  display: inline-block;
-  overflow-x: auto;
-  max-width: 100%;
+/* --- Leaderboard: keep usernames on one line & let table expand --- */
+
+.page-leaderboard .board-container {
+  overflow-x: auto; /* keep horizontal scroll if table gets wider */
 }
 
 .page-leaderboard .list {
-  table-layout: auto !important; /* allow natural column sizing */
-  width: 100%;
+  table-layout: auto !important; /* let columns size by content */
+  width: max(100%, auto) !important;
 }
 
-.page-leaderboard .list__level {
-  white-space: nowrap; /* prevent wrapping */
-}
-
-.page-leaderboard .list__level button {
-  display: inline-block;
+/* shrink the two number columns, give name column room */
+.page-leaderboard .list__item td.list__rank {
+  width: 1%;
   white-space: nowrap;
-  width: auto; /* don’t shrink */
 }
+
+/* absolutely forbid breaking in the name cell and inside the button/span */
+.page-leaderboard .list__item td.list__level,
+.page-leaderboard .list__item td.list__level *,
+.page-leaderboard .list__level button,
+.page-leaderboard .list__level button span,
+.page-leaderboard .list__level button span.type-label-lg {
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: manual !important;
+  max-width: none !important;
+  display: inline-block; /* ensure nowrap takes effect */
+}
+
 
