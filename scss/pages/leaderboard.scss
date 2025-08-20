@@ -1,9 +1,10 @@
 .page-leaderboard {
   max-width: 96rem;
   margin: 0 auto;
+  display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 3rem;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -17,24 +18,25 @@
     text-transform: uppercase;
     font-weight: bold;
     vertical-align: middle;
-    
+
     &.demon {
       background-color: rgba(255, 0, 0, 0.2);
       color: rgba(255, 120, 120, 0.9);
     }
-    
+
     &.challenge {
       background-color: rgba(0, 150, 255, 0.2);
       color: rgba(120, 200, 255, 0.9);
     }
   }
-  
+
   .no-link {
     width: 2.5rem;
     display: inline-block;
   }
-  
-  .no-video, .no-records {
+
+  .no-video,
+  .no-records {
     text-align: center;
     padding: 2rem 0;
     color: rgba(255, 255, 255, 0.5);
@@ -44,7 +46,7 @@
   .board-container,
   .player-container {
     padding: 2.5rem;
-    background-color: rgba(#000, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -56,26 +58,26 @@
     top: 2rem;
     overflow-x: auto; // ✅ allow horizontal scroll if table is too wide
   }
-  
+
   .list {
     width: 100%;
     border-collapse: collapse;
     table-layout: auto !important; // ✅ natural sizing
-    width: max(100%, auto) !important;
+    max-width: 100% !important;
 
     &__item {
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       transition: all 0.2s ease;
-      
+
       &:hover {
         background-color: rgba(255, 255, 255, 0.05);
       }
-      
+
       &--active {
         background-color: rgba(255, 255, 255, 0.1);
         border-left: 4px solid rgba(118, 168, 255, 0.8);
       }
-      
+
       td {
         padding: 0.8rem 1rem;
       }
@@ -85,12 +87,12 @@
         white-space: nowrap;
       }
     }
-    
+
     &__rank {
       color: rgba(118, 168, 255, 0.8);
       font-weight: bold;
     }
-    
+
     &__level button {
       background: none;
       border: none;
@@ -101,7 +103,7 @@
       width: auto; // ✅ don’t stretch full width
       padding: 0.5rem;
       border-radius: 0.25rem;
-      
+
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
@@ -117,11 +119,11 @@
       display: inline-block;
     }
   }
-  
+
   .list__level .player-tags {
     display: none;
   }
-  
+
   .player {
     display: flex;
     flex-direction: column;
@@ -132,7 +134,7 @@
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
       position: relative;
-      
+
       &:after {
         content: '';
         position: absolute;
@@ -150,7 +152,7 @@
       color: rgba(118, 168, 255, 0.8);
       position: relative;
       padding-left: 1rem;
-      
+
       &:before {
         content: '';
         position: absolute;
@@ -173,17 +175,12 @@
       background-color: rgba(255, 255, 255, 0.02);
       border-radius: 0.5rem;
       padding: 0.5rem;
-      
+
       p {
         padding-block: 1rem;
       }
 
-      .rank {
-        justify-self: end;
-        color: rgba(118, 168, 255, 0.8);
-        font-weight: bold;
-      }
-      
+      .rank,
       .score {
         justify-self: end;
         color: rgba(118, 168, 255, 0.8);
@@ -204,13 +201,13 @@
           background-color: rgba(118, 168, 255, 0.8);
           transform: scale(1.1);
         }
-        
+
         img {
           height: 1.2rem;
           width: 1.2rem;
         }
       }
-      
+
       /* alternating row styling */
       template:nth-child(4n+1) ~ p,
       template:nth-child(4n+1) ~ a {
