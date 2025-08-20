@@ -4,8 +4,8 @@
 const SCALE = 1;
 const DEMON_MAX_SCORE = 350;
 const DEMON_MIN_SCORE = 18.71;
-const CHALLENGE_MAX_SCORE = 100;
-const CHALLENGE_MIN_SCORE = 18.71;
+const CHALLENGE_MAX_SCORE = 200;
+const CHALLENGE_MIN_SCORE = 1;
 
 /**
  * Calculate the score awarded for completing a list level
