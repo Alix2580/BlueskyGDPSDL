@@ -97,7 +97,7 @@ export default {
                         </li>
                         <li>
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Furrious</p>
+                            <p>Kubix</p>
                         </li>
                         <li>
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
@@ -138,7 +138,7 @@ export default {
         list: [],
         loading: true,
         selected: 0,
-        listLength: 25, // Default value until loaded
+        listLength: 150, // Default value until loaded
         searchQuery: '', // New search query property
     }),
     computed: {
@@ -174,5 +174,6 @@ export default {
         }
     },
 };
+
 
 
