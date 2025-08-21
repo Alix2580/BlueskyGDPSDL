@@ -58,8 +58,8 @@ export default {
                             <p>{{ level.id }}</p>
                         </li>
                         <li>
-                            <div class="type-title-sm">Password</div>
-                            <p>{{ level.password || 'Free to copy' }}</p>
+                            <div class="type-title-sm">Difficulty</div>
+                            <p>{{ level.password || 'Demon' }}</p>
                         </li>
                     </ul>
                     <h2>Records</h2>
@@ -107,7 +107,6 @@ export default {
                     <p>
                         Your submitted challenge must be under 30 seconds in length!
                     </p>
-                    <h4>Submit in our discord server!</h4>
                 </div>
             </div>
         </main>
@@ -116,7 +115,7 @@ export default {
         list: [],
         loading: true,
         selected: 0,
-        listLength: 10, // Default value for challenge list length
+        listLength: 150, // Default value for challenge list length
         searchQuery: '',
     }),
     computed: {
