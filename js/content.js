@@ -157,7 +157,7 @@ export async function fetchLeaderboard() {
             level: challenge.name,
             score: score(rank + 1, challengeListLength, true),
             link: challenge.verification,
-            type: 'challenge'
+            type: 'platformer'
         });
 
         challenge.records?.forEach((record) => {
@@ -174,7 +174,7 @@ export async function fetchLeaderboard() {
                 level: challenge.name,
                 score: score(rank + 1, challengeListLength, true),
                 link: record.link,
-                type: 'challenge'
+                type: 'platformer'
             });
         });
     });
@@ -194,4 +194,5 @@ export async function fetchLeaderboard() {
 
     // Sort by total score
     return res.sort((a, b) => b.total - a.total);
+
 }
