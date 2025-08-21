@@ -37,7 +37,7 @@ export default {
                     </tr>
                     <tr v-if="filteredList.length === 0" class="list__empty">
                         <td colspan="2">
-                            <p class="type-label-lg">No challenges found matching "{{ searchQuery }}"</p>
+                            <p class="type-label-lg">No platformers found matching "{{ searchQuery }}"</p>
                         </td>
                     </tr>
                 </table>
@@ -86,7 +86,7 @@ export default {
             </div>
             <div class="meta-container">
                 <div class="meta">
-                    <h3>Challenge List Editors</h3>
+                    <h3>Platformer List Editors</h3>
                     <ul class="editors">
                         <li>
                             <img src="./assets/crown.svg" alt="Owner" style="filter: invert(1)">
@@ -97,15 +97,12 @@ export default {
                             <p>Luna</p>
                         </li>
                     </ul>
-                    <h3>Challenge Submission Requirements</h3>
+                    <h3>Platformer Submission Requirements</h3>
                     <p>
                         Achieved the record without using hacks (however, FPS bypass is allowed, up to 360fps)
                     </p>
                     <p>
                         Have either source audio or clicks/taps in the video. Edited audio only does not count (Fake Clicks/Click Sounds are not allowed)
-                    </p>
-                    <p>
-                        Your submitted challenge must be under 30 seconds in length!
                     </p>
                 </div>
             </div>
@@ -151,7 +148,7 @@ export default {
             this.list = await fetchChallengeList();
             this.listLength = await getChallengeListLength();
         } catch (error) {
-            console.error('Error loading challenge list data:', error);
+            console.error('Error loading platformer list data:', error);
             this.list = []; // Set empty list on error
         } finally {
             this.loading = false;
@@ -159,7 +156,7 @@ export default {
     },
     methods: {
         calculateScore(rank) {
-            return score(rank, this.listLength, true); // true indicates it's a challenge list
+            return score(rank, this.listLength, true); // true indicates it's a platformer list
         }
     },
 };
