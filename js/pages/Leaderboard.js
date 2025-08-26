@@ -46,7 +46,16 @@ export default {
             </div>
             <div class="player-container">
                 <div class="player">
-                    <h1>#{{ selected + 1 }} ⇢ {{ entry.user }}</h1>
+                    <h1>
+                        #{{ selected + 1 }} ⇢ 
+                        <img 
+                            v-if="entry.flag" 
+                            class="player-flag-lg" 
+                            :src="'./assets/flags/' + entry.flag + '.svg'" 
+                            :alt="entry.flag + ' flag'"
+                        >
+                        {{ entry.user }}
+                    </h1>
                     <h2>Verified</h2>
                     <div class="table">
                         <template v-if="entry.verified && entry.verified.length > 0">
