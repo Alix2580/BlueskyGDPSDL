@@ -107,6 +107,22 @@ export default {
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
                             <p>Hexy</p>
                         </li>
+                         <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>VizaVizor</p>
+                        </li>
+                         <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>Furrious</p>
+                        </li>
+                         <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>dusk</p>
+                        </li>
+                         <li>
+                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
+                            <p>daneeko</p>
+                        </li>
                         <li>
                             <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
                             <p>Luna</p>
@@ -178,3 +194,4 @@ export default {
         }
     },
 };
+
