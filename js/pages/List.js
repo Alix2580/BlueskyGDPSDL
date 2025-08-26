@@ -1,9 +1,36 @@
+import { store } from '../main.js';
 import { embed } from '../util.js';
-import { score, getListLength } from '../score.js';
-import { fetchList } from '../content.js';
+import { score } from '../score.js';
+import { fetchEditors, fetchList } from '../content.js';
 
 import Spinner from '../components/Spinner.js';
 import LevelAuthors from '../components/List/LevelAuthors.js';
+
+const roleIconMap = {
+    owner: 'crown',
+    admin: 'user-gear',
+    helper: 'user-shield',
+    dev: 'code',
+    trial: 'user-lock',
+};
+
+function getRankColor(rank) {
+    if (rank === 1) return 'gold';
+    if (rank === 2) return 'silver';
+    if (rank === 3) return '#cd7f32'; // bronze
+    if (rank > 100) return 'darkgrey';
+    return undefined;
+}
+
+// Updated opacity function
+function getOpacity(rank) {
+    if (rank === null) return 0.17; // Benchmark levels
+    if (rank >= 101 && rank <= 151) {
+        const opacity = 1 - (rank - 101) / 50;
+        return opacity < 0 ? 0 : opacity;
+    }
+    return 1;
+}
 
 export default {
     components: { Spinner, LevelAuthors },
@@ -13,203 +40,169 @@ export default {
         </main>
         <main v-else class="page-list">
             <div class="list-container">
-                <div class="search-container">
-                    <input 
-                        type="text" 
-                        v-model="searchQuery" 
-                        placeholder="Search levels..." 
-                        class="search-input"
-                    >
-                    <button class="search-clear" v-if="searchQuery" @click="searchQuery = ''">
-                        ×
-                    </button>
-                </div>
-                <table class="list">
-                    <tr 
-                        v-for="(level, i) in filteredList" 
-                        class="list__item" 
-                        :class="[
-                            { 'list__item--active': selected == i },
-                            level.rank === 1 ? 'rank-1' : '',
-                            level.rank === 2 ? 'rank-2' : '',
-                            level.rank === 3 ? 'rank-3' : '',
-                            level.isBenchmark ? 'benchmark' : ''
-                        ]"
-                    >
-                        <td class="list__rank">
-                            <p class="type-label-lg">
-                                <span v-if="level.isBenchmark">★</span>
-                                <span v-else>#{{ level.rank }}</span>
+                <table class="list" v-if="list">
+                    <tr v-for="([err, rank, level], i) in list">
+                        <td class="rank">
+                            <p
+                                class="type-label-lg"
+                                :style="{ color: getRankColor(rank), opacity: getOpacity(rank) }"
+                            >
+                                {{ rank === null ? '—' : \`#\${rank}\` }}
                             </p>
                         </td>
-                        <td class="list__level">
+                        <td class="level" :class="{ 'active': selected == i, 'error': err !== null }">
                             <button @click="selected = i">
-                                <span class="type-label-lg">{{ level.displayName }}</span>
-                                <span v-if="level.isBenchmark" class="benchmark-tag">Benchmark</span>
+                                <span
+                                    class="type-label-lg"
+                                    :style="{ color: getRankColor(rank), opacity: getOpacity(rank) }"
+                                >
+                                    {{ level?.name || \`Error (\${err}.json)\` }}
+                                </span>
                             </button>
-                        </td>
-                    </tr>
-                    <tr v-if="filteredList.length === 0" class="list__empty">
-                        <td colspan="2">
-                            <p class="type-label-lg">No levels found matching "{{ searchQuery }}"</p>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="level-container" v-if="level">
-                <div class="level">
-                    <h1>{{ level.displayName }}</h1>
+            <div class="level-container">
+                <div class="level" v-if="level">
+                    <h1>{{ level.name }}</h1>
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
-                    <iframe class="video" :src="embed(level.verification)" frameborder="0"></iframe>
+                    <div style="display:flex">
+                        <div v-for="tag in level.tags" class="tag">{{tag}}</div>
+                    </div>
+                    <div v-if="level.showcase" class="tabs">
+                        <button class="tab type-label-lg" :class="{selected: !toggledShowcase}" @click="toggledShowcase = false">
+                            <span class="type-label-lg">Verification</span>
+                        </button>
+                        <button class="tab" :class="{selected: toggledShowcase}" @click="toggledShowcase = true">
+                            <span class="type-label-lg">Showcase</span>
+                        </button>
+                    </div>
+                    <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
                     <ul class="stats">
-                        <li v-if="!level.isBenchmark">
+                        <li>
                             <div class="type-title-sm">Points when completed</div>
-                            <p>{{ calculateScore(level.rank) }}</p>
+                            <p>{{ score(level.rank, 100, level.percentToQualify, list.filter((x)=>x[2]["rank"]!==null).length) }}</p>
                         </li>
                         <li>
                             <div class="type-title-sm">ID</div>
                             <p>{{ level.id }}</p>
                         </li>
                         <li>
-                            <div class="type-title-sm">Difficulty</div>
-                            <p>{{ level.password || 'Demon' }}</p>
+                            <div class="type-title-sm">Password</div>
+                            <p>{{ level.password || 'Free to copy' }}</p>
+                        </li>
+                    </ul>
+                    <ul stats="stats" v-if="level.song">
+                        <li>
+                            <div class="type-title-sm">Song</div><br>
+                            <p><a :href="(level.song===undefined)?'#':level.song" :style="{'text-decoration':(level.song===undefined)?'none':'underline'}">Link to song</a></p>
                         </li>
                     </ul>
                     <h2>Records</h2>
-                    <p><strong>100%</strong> completion required</p>
-                    <div class="records">
-                        <template v-for="record in level.records" class="record">
-                            <div class="percent">
-                                <p>100%</p>
-                            </div>
-                            <div class="user">
-                                <p>{{ record.user }}</p>
-                            </div>
-                            <div class="hz">
-                                <p>{{ record.hz }}Hz</p>
-                            </div>
-                            <div class="link">
-                                <a :href="record.link">
-                                    <img src="./assets/video.svg" alt="Video" style="filter: invert(1)">
-                                </a>
-                            </div>
-                        </template>
-                    </div>
+                    <p v-if="level.rank === null">This level does not accept records.</p>
+                    <p v-else-if="level.rank <= 75"><strong>{{ level.percentToQualify }}%</strong> or better to qualify</p>
+                    <p v-else-if="level.rank <= 150"><strong>100%</strong> or better to qualify</p>
+                    <p v-else>This level has fallen to legacy, but still accepts completion records.</p>
+                    <table class="records">
+                        <tr v-for="record in level.records" class="record">
+                            <td class="percent">
+                                <p>{{ record.percent }}%</p>
+                            </td>
+                            <td class="user">
+                                <a :href="record.link" target="_blank" class="type-label-lg">{{ record.user }}</a>
+                            </td>
+                            <td class="mobile">
+                                <img v-if="record.mobile" :src="\`/assets/phone-landscape\${store.dark ? '-dark' : ''}.svg\`" alt="Mobile">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div v-else class="level" style="height: 100%; justify-content: center; align-items: center;">
+                    <p>(ノಠ益ಠ)ノ彡┻━┻</p>
                 </div>
             </div>
             <div class="meta-container">
                 <div class="meta">
-                    <h3>List Editors</h3>
-                    <ul class="editors">
-                        <li>
-                            <img src="./assets/crown.svg" alt="Owner" style="filter: invert(1)">
-                            <p>DubbyBall</p>
-                        </li>
-                        <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>shib</p>
-                        </li>
-                        <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Kubix</p>
-                        </li>
-                        <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Firelia</p>
-                        </li>
-                          <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Hexy</p>
-                        </li>
-                        <li>
-                            <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
-                            <p>Luna</p>
-                        </li>
-                    </ul>
+                    <div class="errors" v-show="errors.length > 0">
+                        <p class="error" v-for="error of errors">{{ error }}</p>
+                    </div>
+                    <div class="og">
+                        <p class="type-label-md">Website layout on <a href="https://tsl.pages.dev/" target="_blank">TheShittyList</a>.</p>
+                    </div>
+                    <template v-if="editors">
+                        <h3>List Editors</h3>
+                        <ol class="editors">
+                            <li v-for="editor in editors">
+                                <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
+                                <a v-if="editor.link" class="type-label-lg link" target="_blank" :href="editor.link">{{ editor.name }}</a>
+                                <p v-else>{{ editor.name }}</p>
+                            </li>
+                        </ol>
+                    </template>
                     <h3>Submission Requirements</h3>
-                    <p>
-                        Achieved the record without using hacks (however, FPS bypass is allowed, up to 480fps)
-                    </p>
-                    <p>
-                        Achieved <strong>100% Completion</strong> on the level that is listed on the site - please check the level ID before you submit a record
-                    </p>
-                    <p>
-                        Have either source audio or clicks/taps in the video. Edited audio only does not count
-                    </p>
-                    <p>
-                        The recording must have a previous attempt and entire death animation shown before the completion, unless the completion is on the first attempt. Everyplay records are exempt from this
-                    </p>
-                     <p>
-                        Click Between Frames is allowed
-                    </p>
-                      <p>
-                        If you beat a level from 0% while in practice mode, your record will still be taken under consideration and not denied instantly
-                    </p>
-                    <p>
-                        Do not use secret routes or bug routes. If you find one, report it to the level's creator
-                    </p>
+                    <p>Achieved the record without using hacks (however, FPS bypass is allowed, up to 360fps)</p>
+                    <p>Achieved the record on the level that is listed on the site - please check the level ID before you submit a record</p>
+                    <p>Have either source audio or clicks/taps in the video. Edited audio only does not count</p>
+                    <p>The recording must have a previous attempt and entire death animation shown before the completion, unless the completion is on the first attempt. Everyplay records are exempt from this</p>
+                    <p>Do not use secret routes or bug routes</p>
+                    <p>Do not use superbuffed/easy/changed gp version of a level, only a record of the unmodified level qualifies</p>
+                    <p>Once a level falls onto the Legacy List, we accept records for it still, but they won't award any kind of points for the leaderboard</p>
                 </div>
             </div>
         </main>
     `,
     data: () => ({
         list: [],
+        editors: [],
         loading: true,
         selected: 0,
-        listLength: 150,
-        searchQuery: '',
+        errors: [],
+        listlevels: 0,
+        roleIconMap,
+        store,
+        toggledShowcase: false,
     }),
     computed: {
         level() {
-            return this.list[this.selected];
+            return this.list && this.list[this.selected] && this.list[this.selected][2];
         },
-        filteredList() {
-            if (!this.searchQuery) return this.list;
-            
-            const query = this.searchQuery.toLowerCase();
-            return this.list.filter(level => 
-                level.displayName.toLowerCase().includes(query) || 
-                (level.author && level.author.toLowerCase().includes(query)) ||
-                (level.id && String(level.id).includes(query))
+        video() {
+            if (!this.level.showcase) {
+                return embed(this.level.verification);
+            }
+            return embed(
+                this.toggledShowcase
+                    ? this.level.showcase
+                    : this.level.verification
             );
-        }
+        },
     },
     async mounted() {
-        try {
-            const rawList = await fetchList();
-            let rankCounter = 1;
+        this.list = await fetchList();
+        this.editors = await fetchEditors();
 
-            this.list = rawList.map(raw => {
-                const isBenchmark = raw.startsWith('_');
-                const displayName = isBenchmark ? raw.substring(1) : raw;
-                const levelObj = {
-                    name: raw,
-                    displayName,
-                    isBenchmark,
-                    rank: isBenchmark ? null : rankCounter++,
-                    author: "Unknown", // placeholder if fetchList doesn't fill this
-                    creators: [],
-                    verifier: "",
-                    id: "",
-                    password: "",
-                    verification: "",
-                    records: []
-                };
-                return levelObj;
-            });
-
-            this.listLength = await getListLength();
-        } catch (error) {
-            console.error('Error loading data:', error);
-            this.list = [];
-        } finally {
-            this.loading = false;
+        if (!this.list) {
+            this.errors = [
+                'Failed to load list. Retry in a few minutes or notify list staff.',
+            ];
+        } else {
+            this.errors.push(
+                ...this.list
+                    .filter(([err]) => err)
+                    .map(([err]) => `Failed to load level. (${err}.json)`),
+            );
+            if (!this.editors) {
+                this.errors.push('Failed to load list editors.');
+            }
         }
+
+        this.loading = false;
     },
     methods: {
         embed,
-        calculateScore(rank) {
-            return score(rank, this.listLength);
-        }
+        score,
+        getRankColor,
+        getOpacity,
     },
 };
