@@ -5,23 +5,6 @@ import { fetchList } from '../content.js';
 import Spinner from '../components/Spinner.js';
 import LevelAuthors from '../components/List/LevelAuthors.js';
 
-function getRankColor(rank) {
-    if (rank === 1) return 'gold';
-    if (rank === 2) return 'silver';
-    if (rank === 3) return '#cd7f32'; // bronze
-    if (rank > 100) return 'darkgrey';
-    return undefined;
-}
-
-function getOpacity(rank) {
-    if (rank === null) return 0.17; // Benchmark levels
-    if (rank >= 101 && rank <= 151) {
-        const opacity = 1 - (rank - 101) / 50;
-        return opacity < 0 ? 0 : opacity;
-    }
-    return 1;
-}
-
 export default {
     components: { Spinner, LevelAuthors },
     template: `
@@ -45,24 +28,24 @@ export default {
                     <tr 
                         v-for="(level, i) in filteredList" 
                         class="list__item" 
-                        :class="{ 'list__item--active': selected == list.indexOf(level) }"
+                        :class="[
+                            { 'list__item--active': selected == i },
+                            level.rank === 1 ? 'rank-1' : '',
+                            level.rank === 2 ? 'rank-2' : '',
+                            level.rank === 3 ? 'rank-3' : '',
+                            level.isBenchmark ? 'benchmark' : ''
+                        ]"
                     >
                         <td class="list__rank">
-                            <p 
-                                class="type-label-lg"
-                                :style="{ color: getRankColor(level.rank), opacity: getOpacity(level.rank) }"
-                            >
-                                {{ level.rank === null ? '—' : '#' + level.rank }}
+                            <p class="type-label-lg">
+                                <span v-if="level.isBenchmark">★</span>
+                                <span v-else>#{{ level.rank }}</span>
                             </p>
                         </td>
                         <td class="list__level">
-                            <button @click="selected = list.indexOf(level)">
-                                <span 
-                                    class="type-label-lg"
-                                    :style="{ color: getRankColor(level.rank), opacity: getOpacity(level.rank) }"
-                                >
-                                    {{ level.displayName }}
-                                </span>
+                            <button @click="selected = i">
+                                <span class="type-label-lg">{{ level.displayName }}</span>
+                                <span v-if="level.isBenchmark" class="benchmark-tag">Benchmark</span>
                             </button>
                         </td>
                     </tr>
@@ -73,17 +56,13 @@ export default {
                     </tr>
                 </table>
             </div>
-            <div class="level-container">
+            <div class="level-container" v-if="level">
                 <div class="level">
-                    <h1 
-                        :style="{ color: getRankColor(level.rank), opacity: getOpacity(level.rank) }"
-                    >
-                        {{ level.displayName }}
-                    </h1>
+                    <h1>{{ level.displayName }}</h1>
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
                     <iframe class="video" :src="embed(level.verification)" frameborder="0"></iframe>
                     <ul class="stats">
-                        <li>
+                        <li v-if="!level.isBenchmark">
                             <div class="type-title-sm">Points when completed</div>
                             <p>{{ calculateScore(level.rank) }}</p>
                         </li>
@@ -97,12 +76,11 @@ export default {
                         </li>
                     </ul>
                     <h2>Records</h2>
-                    <p v-if="level.rank === null">This level does not accept records.</p>
-                    <p v-else><strong>100%</strong> completion required</p>
+                    <p><strong>100%</strong> completion required</p>
                     <div class="records">
                         <template v-for="record in level.records" class="record">
                             <div class="percent">
-                                <p>{{ level.rank === null ? '—' : '100%' }}</p>
+                                <p>100%</p>
                             </div>
                             <div class="user">
                                 <p>{{ record.user }}</p>
@@ -178,8 +156,8 @@ export default {
         list: [],
         loading: true,
         selected: 0,
-        listLength: 150, 
-        searchQuery: '', 
+        listLength: 150,
+        searchQuery: '',
     }),
     computed: {
         level() {
@@ -191,27 +169,39 @@ export default {
             const query = this.searchQuery.toLowerCase();
             return this.list.filter(level => 
                 level.displayName.toLowerCase().includes(query) || 
-                level.author.toLowerCase().includes(query) ||
-                String(level.id).includes(query)
+                (level.author && level.author.toLowerCase().includes(query)) ||
+                (level.id && String(level.id).includes(query))
             );
         }
     },
     async mounted() {
         try {
             const rawList = await fetchList();
-            // Process list: detect benchmarks
-            this.list = rawList.map((level, index) => {
-                const isBenchmark = level.name.startsWith('_');
-                return {
-                    ...level,
-                    displayName: isBenchmark ? level.name.substring(1) : level.name,
-                    rank: isBenchmark ? null : index + 1,
+            let rankCounter = 1;
+
+            this.list = rawList.map(raw => {
+                const isBenchmark = raw.startsWith('_');
+                const displayName = isBenchmark ? raw.substring(1) : raw;
+                const levelObj = {
+                    name: raw,
+                    displayName,
+                    isBenchmark,
+                    rank: isBenchmark ? null : rankCounter++,
+                    author: "Unknown", // placeholder if fetchList doesn't fill this
+                    creators: [],
+                    verifier: "",
+                    id: "",
+                    password: "",
+                    verification: "",
+                    records: []
                 };
+                return levelObj;
             });
+
             this.listLength = await getListLength();
         } catch (error) {
             console.error('Error loading data:', error);
-            this.list = []; 
+            this.list = [];
         } finally {
             this.loading = false;
         }
@@ -219,10 +209,7 @@ export default {
     methods: {
         embed,
         calculateScore(rank) {
-            if (rank === null) return '—';
             return score(rank, this.listLength);
-        },
-        getRankColor,
-        getOpacity,
+        }
     },
 };
