@@ -1,9 +1,10 @@
+heres the index.html of my website, analyze it:
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-        <meta name="description" content="Butterfly DL - Geometry Dash speedrunning leaderboards and platformer challenges" />
+        <meta name="viewport" content="user-scalable=no" />
         <title>Butterfly DL</title>
         <link rel="icon" href="favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,69 +21,13 @@
         <link rel="stylesheet" type="text/css" href="./css/pages/leaderboard.css" />
         <link rel="stylesheet" type="text/css" href="./css/components/list.css" />
         <link rel="stylesheet" type="text/css" href="./css/components/nav.css" />
-        <style>
-            /* Minimal additions to existing styles */
-            footer {
-                margin-top: 2rem;
-                padding: 1.5rem;
-                text-align: center;
-                border-top: 1px solid rgba(0,0,0,0.1);
-                color: #666;
-                font-size: 0.9rem;
-            }
-            
-            .footer-content {
-                max-width: 1200px;
-                margin: 0 auto;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            
-            .footer-links {
-                display: flex;
-                gap: 1.5rem;
-            }
-            
-            .footer-links a {
-                color: #666;
-                text-decoration: none;
-            }
-            
-            .footer-links a:hover {
-                color: #333;
-                text-decoration: underline;
-            }
-            
-            noscript {
-                display: block;
-                padding: 1rem;
-                background: #fff9e6;
-                border-left: 4px solid #ffc53d;
-                margin: 1rem 0;
-                color: #333;
-            }
-            
-            @media (max-width: 768px) {
-                .footer-content {
-                    flex-direction: column;
-                    text-align: center;
-                }
-                
-                .footer-links {
-                    justify-content: center;
-                }
-            }
-        </style>
         <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
         <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.prod.js"></script>
     </head>
     <body id="app">
         <header>
             <div class="logo type-h2">Butterfly DL</div>
-            <nav class="nav" aria-label="Main navigation">
+            <nav class="nav">
                 <router-link class="nav__tab" to="/">
                     <span class="type-label-lg">List</span>
                 </router-link>
@@ -93,7 +38,7 @@
                     <span class="type-label-lg">Leaderboard</span>
                 </router-link>
                 <div class="nav__actions">
-                    <a class="nav__icon" href="https://discord.gg/vh9aCwp5c8" aria-label="Join our Discord server">
+                    <a class="nav__icon" href="https://discord.gg/vh9aCwp5c8">
                         <img src="./assets/discord.svg" alt="Discord Logo" />
                     </a>
                     <a
@@ -104,25 +49,9 @@
                 </div>
             </nav>
         </header>
-        
-        <noscript>
-            <p>This website requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
-        </noscript>
-        
         <router-view></router-view>
-        
-        <footer>
-            <div class="footer-content">
-                <div>© 2023 Butterfly DL. All rights reserved.</div>
-                <div class="footer-links">
-                    <a href="/about">About</a>
-                    <a href="/rules">Rules</a>
-                    <a href="https://discord.gg/vh9aCwp5c8">Discord</a>
-                    <a href="/contact">Contact</a>
-                </div>
-            </div>
-        </footer>
-        
+        <footer></footer>
         <script type="module" src="./js/main.js"></script>
     </body>
+
 </html>
