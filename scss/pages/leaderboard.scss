@@ -93,19 +93,36 @@
       font-weight: bold;
     }
 
-    &__level button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: inherit;
-      font-size: inherit;
-      text-align: left;
-      width: auto; // ✅ don’t stretch full width
-      padding: 0.5rem;
-      border-radius: 0.25rem;
+    &__level {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
 
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+      button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: inherit;
+        font-size: inherit;
+        text-align: left;
+        width: auto;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      .player-flag {
+        width: 1.2rem;
+        height: 0.9rem;
+        border-radius: 2px;
+        object-fit: cover;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
       }
     }
 
@@ -134,6 +151,9 @@
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
       position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
 
       &:after {
         content: '';
@@ -143,6 +163,14 @@
         width: 6rem;
         height: 3px;
         background: linear-gradient(90deg, rgba(118, 168, 255, 0.8), transparent);
+      }
+
+      .player-flag-lg {
+        width: 2rem;
+        height: 1.5rem;
+        border-radius: 3px;
+        object-fit: cover;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -216,4 +244,3 @@
     }
   }
 }
-
