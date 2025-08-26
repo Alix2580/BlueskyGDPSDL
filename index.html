@@ -2,9 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-        <meta name="description" content="Butterfly DL - Speedrunning leaderboards and platformer challenges for Geometry Dash players" />
-        <title>Butterfly DL | Geometry Dash Speedrunning</title>
+        <meta name="viewport" content="user-scalable=no" />
+        <title>Butterfly DL</title>
         <link rel="icon" href="favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,191 +19,6 @@
         <link rel="stylesheet" type="text/css" href="./css/pages/leaderboard.css" />
         <link rel="stylesheet" type="text/css" href="./css/components/list.css" />
         <link rel="stylesheet" type="text/css" href="./css/components/nav.css" />
-        <style>
-            /* Enhanced styles for the demo */
-            body {
-                background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-                color: white;
-                min-height: 100vh;
-                font-family: 'Montserrat', sans-serif;
-            }
-            
-            #app {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 20px;
-            }
-            
-            header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 20px 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                margin-bottom: 30px;
-            }
-            
-            .logo {
-                background: linear-gradient(90deg, #ff8a00, #e52e71);
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-                font-weight: 700;
-            }
-            
-            .nav {
-                display: flex;
-                gap: 20px;
-                align-items: center;
-            }
-            
-            .nav__tab {
-                padding: 10px 20px;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-                text-decoration: none;
-                color: rgba(255, 255, 255, 0.7);
-            }
-            
-            .nav__tab:hover, .nav__tab.router-link-active {
-                background: rgba(255, 255, 255, 0.1);
-                color: white;
-            }
-            
-            .nav__actions {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                margin-left: 20px;
-            }
-            
-            .nav__icon {
-                display: flex;
-                padding: 8px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 50%;
-                transition: all 0.3s ease;
-            }
-            
-            .nav__icon:hover {
-                background: #5865F2;
-                transform: translateY(-2px);
-            }
-            
-            .nav__icon img {
-                width: 24px;
-                height: 24px;
-            }
-            
-            .nav__cta {
-                background: linear-gradient(90deg, #ff8a00, #e52e71);
-                padding: 10px 20px;
-                border-radius: 8px;
-                text-decoration: none;
-                color: white;
-                font-weight: 500;
-                transition: all 0.3s ease;
-            }
-            
-            .nav__cta:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(229, 46, 113, 0.4);
-            }
-            
-            /* Main content placeholder */
-            .content-placeholder {
-                background: rgba(255, 255, 255, 0.05);
-                border-radius: 12px;
-                padding: 40px;
-                text-align: center;
-                margin-bottom: 40px;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .content-placeholder h2 {
-                font-size: 28px;
-                margin-bottom: 15px;
-                color: #ff8a00;
-            }
-            
-            .content-placeholder p {
-                color: rgba(255, 255, 255, 0.7);
-                max-width: 600px;
-                margin: 0 auto 25px;
-                line-height: 1.6;
-            }
-            
-            /* Footer styles */
-            footer {
-                background: rgba(0, 0, 0, 0.2);
-                padding: 30px 0;
-                margin-top: 50px;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .footer-content {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .footer-logo {
-                font-size: 18px;
-                font-weight: 700;
-                background: linear-gradient(90deg, #ff8a00, #e52e71);
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-            }
-            
-            .footer-links {
-                display: flex;
-                gap: 20px;
-            }
-            
-            .footer-links a {
-                color: rgba(255, 255, 255, 0.7);
-                text-decoration: none;
-                transition: color 0.3s ease;
-            }
-            
-            .footer-links a:hover {
-                color: white;
-            }
-            
-            .copyright {
-                text-align: center;
-                margin-top: 20px;
-                color: rgba(255, 255, 255, 0.5);
-                font-size: 14px;
-            }
-            
-            /* Responsive design */
-            @media (max-width: 768px) {
-                header {
-                    flex-direction: column;
-                    gap: 15px;
-                }
-                
-                .nav {
-                    flex-wrap: wrap;
-                    justify-content: center;
-                }
-                
-                .nav__actions {
-                    margin-left: 0;
-                    justify-content: center;
-                    width: 100%;
-                }
-                
-                .footer-content {
-                    flex-direction: column;
-                    gap: 20px;
-                    text-align: center;
-                }
-            }
-        </style>
         <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
         <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.prod.js"></script>
     </head>
@@ -233,32 +47,9 @@
                 </div>
             </nav>
         </header>
-        
-        <router-view>
-            <!-- Fallback content when JS is loading or disabled -->
-            <div class="content-placeholder">
-                <h2>Butterfly DL</h2>
-                <p>Explore Geometry Dash speedrunning leaderboards, platformer challenges, and submit your records to climb the ranks!</p>
-                <p>Enable JavaScript for the full experience, or wait while the application loads.</p>
-            </div>
-        </router-view>
-        
-        <footer>
-            <div class="footer-content">
-                <div class="footer-logo">Butterfly DL</div>
-                <div class="footer-links">
-                    <a href="/about">About</a>
-                    <a href="/rules">Rules</a>
-                    <a href="/faq">FAQ</a>
-                    <a href="https://discord.gg/vh9aCwp5c8">Discord</a>
-                    <a href="/contact">Contact</a>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2023 Butterfly DL. All rights reserved.
-            </div>
-        </footer>
-        
+        <router-view></router-view>
+        <footer></footer>
         <script type="module" src="./js/main.js"></script>
     </body>
+
 </html>
