@@ -113,7 +113,25 @@ export default {
         },
     },
     async mounted() {
-        this.leaderboard = await fetchLeaderboard();
+        // Fetch leaderboard
+        const data = await fetchLeaderboard();
+
+        // Fetch flags.json
+        const response = await fetch("./data/flags.json");
+        const flagData = await response.json();
+
+        // Create lookup table
+        const flagMap = {};
+        flagData.forEach(entry => {
+            flagMap[entry.user] = entry.flag;
+        });
+
+        // Merge flags into leaderboard entries
+        this.leaderboard = data.map(entry => ({
+            ...entry,
+            flag: flagMap[entry.user] || null
+        }));
+
         this.loading = false;
     },
     methods: {
