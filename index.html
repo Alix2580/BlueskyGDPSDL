@@ -1,55 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="user-scalable=no" />
-        <title>Butterfly DL</title>
-        <link rel="icon" href="favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
-        <link
-            href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@500;700&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" type="text/css" href="./css/reset.css" />
-        <link rel="stylesheet" type="text/css" href="./css/typography.css" />
-        <link rel="stylesheet" type="text/css" href="./css/main.css" />
-        <link rel="stylesheet" type="text/css" href="./css/pages/list.css" />
-        <link rel="stylesheet" type="text/css" href="./css/pages/leaderboard.css" />
-        <link rel="stylesheet" type="text/css" href="./css/components/list.css" />
-        <link rel="stylesheet" type="text/css" href="./css/components/nav.css" />
-        <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-        <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.prod.js"></script>
-    </head>
-    <body id="app">
-        <header>
-            <div class="logo type-h2">Butterfly DL</div>
-            <nav class="nav">
-                <router-link class="nav__tab" to="/">
-                    <span class="type-label-lg">List</span>
-                </router-link>
-                <router-link class="nav__tab" to="challenges">
-                    <span class="type-label-lg">Platformer</span>
-                </router-link>
-                <router-link class="nav__tab" to="leaderboard">
-                    <span class="type-label-lg">Leaderboard</span>
-                </router-link>
-                <div class="nav__actions">
-                    <a class="nav__icon" href="https://discord.gg/vh9aCwp5c8">
-                        <img src="./assets/discord.svg" alt="Discord Logo" />
-                    </a>
-                    <a
-                        class="nav__cta type-label-lg"
-                        href="https://docs.google.com/forms/d/e/1FAIpQLScRbRi-TErHfLUX9peTuI7zPuE0fMbDvpxnieSgIRuPHMqjHg/viewform?usp=dialog"
-                        >Submit Record</a
-                    >
-                </div>
-            </nav>
-        </header>
-        <router-view></router-view>
-        <footer></footer>
-        <script type="module" src="./js/main.js"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta
+      name="description"
+      content="Butterfly DL – A Geometry Dash Demonlist & Leaderboard."
+    />
+    <title>Butterfly DL</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Lexend+Deca:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="./css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./css/typography.css" />
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
+    <link rel="stylesheet" type="text/css" href="./css/pages/list.css" />
+    <link rel="stylesheet" type="text/css" href="./css/pages/leaderboard.css" />
+    <link rel="stylesheet" type="text/css" href="./css/components/list.css" />
+    <link rel="stylesheet" type="text/css" href="./css/components/nav.css" />
+
+    <!-- Vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.prod.js"></script>
+  </head>
+  <body id="app">
+    <header class="site-header">
+      <div class="logo type-h2">Butterfly DL</div>
+      <nav class="nav">
+        <router-link class="nav__tab" to="/" active-class="nav__tab--active">
+          <span class="type-label-lg">List</span>
+        </router-link>
+        <router-link
+          class="nav__tab"
+          to="challenges"
+          active-class="nav__tab--active"
+        >
+          <span class="type-label-lg">Platformer</span>
+        </router-link>
+        <router-link
+          class="nav__tab"
+          to="leaderboard"
+          active-class="nav__tab--active"
+        >
+          <span class="type-label-lg">Leaderboard</span>
+        </router-link>
+        <div class="nav__actions">
+          <a
+            class="nav__icon"
+            href="https://discord.gg/vh9aCwp5c8"
+            aria-label="Join us on Discord"
+            target="_blank"
+            rel="noopener"
+          >
+            <img src="./assets/discord.svg" alt="" />
+          </a>
+          <a
+            class="nav__cta type-label-lg"
+            href="https://docs.google.com/forms/d/e/1FAIpQLScRbRi-TErHfLUX9peTuI7zPuE0fMbDvpxnieSgIRuPHMqjHg/viewform?usp=dialog"
+            target="_blank"
+            rel="noopener"
+            >Submit Record</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <router-view></router-view>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        © 2025 Butterfly DL —
+        <a href="https://discord.gg/vh9aCwp5c8" target="_blank" rel="noopener"
+          >Community Discord</a
+        >
+      </p>
+    </footer>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
 </html>
