@@ -19,7 +19,11 @@ export default {
         <main v-else class="page-leaderboard">
             <div class="board-container">
                 <table class="list">
-                    <tr v-for="(ientry, i) in leaderboard" class="list__item" :class="{ 'list__item--active': selected == i }">
+                    <tr 
+                        v-for="(ientry, i) in leaderboard" 
+                        class="list__item" 
+                        :class="{ 'list__item--active': selected == i }"
+                    >
                         <td class="list__rank">
                             <p class="type-label-lg">#{{ i + 1 }}</p>
                         </td>
@@ -28,6 +32,12 @@ export default {
                         </td>
                         <td class="list__level">
                             <button @click="selected = i">
+                                <img 
+                                    v-if="ientry.flag" 
+                                    class="player-flag" 
+                                    :src="'./assets/flags/' + ientry.flag + '.svg'" 
+                                    :alt="ientry.flag + ' flag'"
+                                >
                                 <span class="type-label-lg">{{ ientry.user }}</span>
                             </button>
                         </td>
@@ -47,7 +57,10 @@ export default {
                                     <span class="level-type" :class="score.type">{{ score.type }}</span>
                                 </p>
                                 <p class="score">+{{ localize(score.score) }}</p>
-                                <a v-if="score.link && score.link !== 'x' && score.link !== '???'" :href="score.link">
+                                <a 
+                                    v-if="score.link && score.link !== 'x' && score.link !== '???'" 
+                                    :href="score.link"
+                                >
                                     <img src="./assets/video.svg" alt="Video" style="filter: invert(1)">
                                 </a>
                                 <span v-else class="no-link"></span>
@@ -65,7 +78,10 @@ export default {
                                     <span class="level-type" :class="score.type">{{ score.type }}</span>
                                 </p>
                                 <p class="score">+{{ localize(score.score) }}</p>
-                                <a v-if="score.link && score.link !== 'x' && score.link !== '???'" :href="score.link">
+                                <a 
+                                    v-if="score.link && score.link !== 'x' && score.link !== '???'" 
+                                    :href="score.link"
+                                >
                                     <img src="./assets/video.svg" alt="Video" style="filter: invert(1)">
                                 </a>
                                 <span v-else class="no-link"></span>
@@ -82,7 +98,8 @@ export default {
             return this.leaderboard[this.selected] || {
                 user: 'Loading...',
                 verified: [],
-                completed: []
+                completed: [],
+                flag: null
             };
         },
     },
