@@ -238,4 +238,12 @@
   display: inline-block; /* ensure nowrap takes effect */
 }
 
+.page-leaderboard .player-flag {
+  height: 1rem;
+  width: 1.5rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  border-radius: 2px;
+  object-fit: cover;
+}
 
