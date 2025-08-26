@@ -5,6 +5,23 @@ import { fetchList } from '../content.js';
 import Spinner from '../components/Spinner.js';
 import LevelAuthors from '../components/List/LevelAuthors.js';
 
+function getRankColor(rank) {
+    if (rank === 1) return 'gold';
+    if (rank === 2) return 'silver';
+    if (rank === 3) return '#cd7f32'; // bronze
+    if (rank > 100) return 'darkgrey';
+    return undefined;
+}
+
+function getOpacity(rank) {
+    if (rank === null) return 0.17; // Benchmark levels
+    if (rank >= 101 && rank <= 151) {
+        const opacity = 1 - (rank - 101) / 50;
+        return opacity < 0 ? 0 : opacity;
+    }
+    return 1;
+}
+
 export default {
     components: { Spinner, LevelAuthors },
     template: `
@@ -25,13 +42,27 @@ export default {
                     </button>
                 </div>
                 <table class="list">
-                    <tr v-for="(level, i) in filteredList" class="list__item" :class="{ 'list__item--active': selected == i }">
+                    <tr 
+                        v-for="(level, i) in filteredList" 
+                        class="list__item" 
+                        :class="{ 'list__item--active': selected == list.indexOf(level) }"
+                    >
                         <td class="list__rank">
-                            <p class="type-label-lg">#{{ list.indexOf(level) + 1 }}</p>
+                            <p 
+                                class="type-label-lg"
+                                :style="{ color: getRankColor(list.indexOf(level) + 1), opacity: getOpacity(list.indexOf(level) + 1) }"
+                            >
+                                #{{ list.indexOf(level) + 1 }}
+                            </p>
                         </td>
                         <td class="list__level">
                             <button @click="selected = list.indexOf(level)">
-                                <span class="type-label-lg">{{ level.name }}</span>
+                                <span 
+                                    class="type-label-lg"
+                                    :style="{ color: getRankColor(list.indexOf(level) + 1), opacity: getOpacity(list.indexOf(level) + 1) }"
+                                >
+                                    {{ level.name }}
+                                </span>
                             </button>
                         </td>
                     </tr>
@@ -44,7 +75,11 @@ export default {
             </div>
             <div class="level-container">
                 <div class="level">
-                    <h1>{{ level.name }}</h1>
+                    <h1 
+                        :style="{ color: getRankColor(selected + 1), opacity: getOpacity(selected + 1) }"
+                    >
+                        {{ level.name }}
+                    </h1>
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
                     <iframe class="video" :src="embed(level.verification)" frameborder="0"></iframe>
                     <ul class="stats">
@@ -175,11 +210,8 @@ export default {
         embed,
         calculateScore(rank) {
             return score(rank, this.listLength);
-        }
+        },
+        getRankColor,
+        getOpacity,
     },
 };
-
-
-
-
-
