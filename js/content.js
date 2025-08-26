@@ -123,7 +123,7 @@ export async function fetchLeaderboard() {
             level: level.name,
             score: score(rank + 1, listLength, false),
             link: level.verification,
-            type: 'demon'
+            type: 'classic'
         });
 
         level.records.forEach((record) => {
@@ -140,7 +140,7 @@ export async function fetchLeaderboard() {
                 level: level.name,
                 score: score(rank + 1, listLength, false),
                 link: record.link,
-                type: 'demon'
+                type: 'classic'
             });
         });
     });
@@ -196,3 +196,4 @@ export async function fetchLeaderboard() {
     return res.sort((a, b) => b.total - a.total);
 
 }
+
