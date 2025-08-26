@@ -50,18 +50,18 @@ export default {
                         <td class="list__rank">
                             <p 
                                 class="type-label-lg"
-                                :style="{ color: getRankColor(list.indexOf(level) + 1), opacity: getOpacity(list.indexOf(level) + 1) }"
+                                :style="{ color: getRankColor(level.rank), opacity: getOpacity(level.rank) }"
                             >
-                                #{{ list.indexOf(level) + 1 }}
+                                {{ level.rank === null ? '—' : '#' + level.rank }}
                             </p>
                         </td>
                         <td class="list__level">
                             <button @click="selected = list.indexOf(level)">
                                 <span 
                                     class="type-label-lg"
-                                    :style="{ color: getRankColor(list.indexOf(level) + 1), opacity: getOpacity(list.indexOf(level) + 1) }"
+                                    :style="{ color: getRankColor(level.rank), opacity: getOpacity(level.rank) }"
                                 >
-                                    {{ level.name }}
+                                    {{ level.displayName }}
                                 </span>
                             </button>
                         </td>
@@ -76,16 +76,16 @@ export default {
             <div class="level-container">
                 <div class="level">
                     <h1 
-                        :style="{ color: getRankColor(selected + 1), opacity: getOpacity(selected + 1) }"
+                        :style="{ color: getRankColor(level.rank), opacity: getOpacity(level.rank) }"
                     >
-                        {{ level.name }}
+                        {{ level.displayName }}
                     </h1>
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
                     <iframe class="video" :src="embed(level.verification)" frameborder="0"></iframe>
                     <ul class="stats">
                         <li>
                             <div class="type-title-sm">Points when completed</div>
-                            <p>{{ calculateScore(selected + 1) }}</p>
+                            <p>{{ calculateScore(level.rank) }}</p>
                         </li>
                         <li>
                             <div class="type-title-sm">ID</div>
@@ -97,11 +97,12 @@ export default {
                         </li>
                     </ul>
                     <h2>Records</h2>
-                    <p><strong>100%</strong> completion required</p>
+                    <p v-if="level.rank === null">This level does not accept records.</p>
+                    <p v-else><strong>100%</strong> completion required</p>
                     <div class="records">
                         <template v-for="record in level.records" class="record">
                             <div class="percent">
-                                <p>100%</p>
+                                <p>{{ level.rank === null ? '—' : '100%' }}</p>
                             </div>
                             <div class="user">
                                 <p>{{ record.user }}</p>
@@ -177,8 +178,8 @@ export default {
         list: [],
         loading: true,
         selected: 0,
-        listLength: 150, // Default value until loaded
-        searchQuery: '', // New search query property
+        listLength: 150, 
+        searchQuery: '', 
     }),
     computed: {
         level() {
@@ -189,7 +190,7 @@ export default {
             
             const query = this.searchQuery.toLowerCase();
             return this.list.filter(level => 
-                level.name.toLowerCase().includes(query) || 
+                level.displayName.toLowerCase().includes(query) || 
                 level.author.toLowerCase().includes(query) ||
                 String(level.id).includes(query)
             );
@@ -197,11 +198,20 @@ export default {
     },
     async mounted() {
         try {
-            this.list = await fetchList();
+            const rawList = await fetchList();
+            // Process list: detect benchmarks
+            this.list = rawList.map((level, index) => {
+                const isBenchmark = level.name.startsWith('_');
+                return {
+                    ...level,
+                    displayName: isBenchmark ? level.name.substring(1) : level.name,
+                    rank: isBenchmark ? null : index + 1,
+                };
+            });
             this.listLength = await getListLength();
         } catch (error) {
             console.error('Error loading data:', error);
-            this.list = []; // Set empty list on error
+            this.list = []; 
         } finally {
             this.loading = false;
         }
@@ -209,6 +219,7 @@ export default {
     methods: {
         embed,
         calculateScore(rank) {
+            if (rank === null) return '—';
             return score(rank, this.listLength);
         },
         getRankColor,
