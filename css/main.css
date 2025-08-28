@@ -1,7 +1,7 @@
 :root {
   --color-background: rgb(255, 255, 255);
   --color-on-background: rgb(255, 255, 255);
-  --color-primary: #4444ff;
+  --color-primary: linear-gradient(to right, #4444ff, #4040a8);
   --color-on-primary: white;
 }
 
@@ -16,7 +16,7 @@ body {
 
 header {
   height: 4rem;
-  background-color: var(--color-primary);
+  background: var(--color-primary); /* changed from background-color */
   color: var(--color-on-primary);
   display: grid;
   grid-template-columns: minmax(16rem, 1fr) minmax(16rem, 2fr) minmax(16em, 1fr);
@@ -78,4 +78,3 @@ html, body, * {
   scrollbar-width: thin;                        /* thinner scrollbar */
   scrollbar-color: #444 var(--color-background); /* thumb | track */
 }
-
