@@ -168,3 +168,19 @@
 }
 
 /*# sourceMappingURL=list.css.map */
+
+.rank-gold {
+  color: #FFD700; /* Gold */
+  font-weight: bold;
+}
+
+.rank-silver {
+  color: #C0C0C0; /* Silver */
+  font-weight: bold;
+}
+
+.rank-bronze {
+  color: #CD7F32; /* Bronze */
+  font-weight: bold;
+}
+
