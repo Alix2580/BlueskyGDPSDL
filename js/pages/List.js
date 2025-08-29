@@ -25,8 +25,19 @@ export default {
                     </button>
                 </div>
                 <table class="list">
-                    <tr v-for="(level, i) in filteredList" class="list__item" :class="{ 'list__item--active': selected == i }">
-                        <td class="list__rank">
+                    <tr 
+                        v-for="(level, i) in filteredList" 
+                        class="list__item" 
+                        :class="{ 'list__item--active': selected == i }"
+                    >
+                        <td 
+                            class="list__rank" 
+                            :class="{
+                                'rank-gold': list.indexOf(level) === 0,
+                                'rank-silver': list.indexOf(level) === 1,
+                                'rank-bronze': list.indexOf(level) === 2
+                            }"
+                        >
                             <p class="type-label-lg">#{{ list.indexOf(level) + 1 }}</p>
                         </td>
                         <td class="list__level">
@@ -194,4 +205,3 @@ export default {
         }
     },
 };
-
