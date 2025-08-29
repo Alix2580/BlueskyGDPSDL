@@ -52,12 +52,33 @@
           border-bottom: none;
         }
       }
+
+      // Rank colors
+      .list__rank {
+        font-weight: bold;
+
+        &.rank-gold {
+          color: #FFD700; // Gold
+          text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+        }
+
+        &.rank-silver {
+          color: #C0C0C0; // Silver
+          text-shadow: 0 0 6px rgba(192, 192, 192, 0.6);
+        }
+
+        &.rank-bronze {
+          color: #CD7F32; // Bronze
+          text-shadow: 0 0 6px rgba(205, 127, 50, 0.6);
+        }
+      }
     }
   
     .meta-container {
       padding-left: 2rem;
       padding-right: 2rem;
     }
+
     // Add search bar styling
     .search-container {
       position: relative;
@@ -198,4 +219,4 @@
             }
         }
     }
-  }
+}
