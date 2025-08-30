@@ -5,5 +5,6 @@ import ChallengeList from './pages/ChallengeList.js';
 export default [
     { path: '/', component: List },
     { path: '/leaderboard', component: Leaderboard },
-    { path: '/challenges', component: ChallengeList },
+    { path: '/platformers', component: ChallengeList },
+
 ];
