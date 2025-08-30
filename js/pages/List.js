@@ -120,10 +120,6 @@ export default {
                         </li>
                          <li>
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>VizaVizor</p>
-                        </li>
-                         <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
                             <p>Furrious</p>
                         </li>
                          <li>
@@ -205,3 +201,4 @@ export default {
         }
     },
 };
+
