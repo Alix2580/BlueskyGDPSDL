@@ -45,7 +45,7 @@ export async function fetchList() {
                     path,
                     records: filteredRecords,
                     percentToQualify: 100,
-                    type: 'demon'
+                    type: 'wave'
                 };
             } catch (error) {
                 console.error(`Error fetching level ${path}:`, error);
