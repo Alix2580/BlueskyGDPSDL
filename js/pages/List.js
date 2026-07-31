@@ -17,7 +17,7 @@ export default {
                     <input 
                         type="text" 
                         v-model="searchQuery" 
-                        placeholder="Search levels..." 
+                        placeholder="Search wave challenges..." 
                         class="search-input"
                     >
                     <button class="search-clear" v-if="searchQuery" @click="searchQuery = ''">
@@ -48,7 +48,7 @@ export default {
                     </tr>
                     <tr v-if="filteredList.length === 0" class="list__empty">
                         <td colspan="2">
-                            <p class="type-label-lg">No levels found matching "{{ searchQuery }}"</p>
+                            <p class="type-label-lg">No wave challenges found matching "{{ searchQuery }}"</p>
                         </td>
                     </tr>
                 </table>
@@ -69,7 +69,7 @@ export default {
                         </li>
                         <li>
                             <div class="type-title-sm">Difficulty</div>
-                            <p>{{ level.password || 'Demon' }}</p>
+                            <p>{{ level.password || 'N/A' }}</p>
                         </li>
                     </ul>
                     <h2>Records</h2>
