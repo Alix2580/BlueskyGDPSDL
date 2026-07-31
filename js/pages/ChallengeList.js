@@ -37,7 +37,7 @@ export default {
                     </tr>
                     <tr v-if="filteredList.length === 0" class="list__empty">
                         <td colspan="2">
-                            <p class="type-label-lg">No platformers found matching "{{ searchQuery }}"</p>
+                            <p class="type-label-lg">No ship challenges found matching "{{ searchQuery }}"</p>
                         </td>
                     </tr>
                 </table>
