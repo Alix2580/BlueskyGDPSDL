@@ -45,7 +45,7 @@ export async function fetchList() {
                     path,
                     records: filteredRecords,
                     percentToQualify: 100,
-                    type: 'wave'
+                    type: 'demon'
                 };
             } catch (error) {
                 console.error(`Error fetching level ${path}:`, error);
@@ -123,7 +123,7 @@ export async function fetchLeaderboard() {
             level: level.name,
             score: score(rank + 1, listLength, false),
             link: level.verification,
-            type: 'classic'
+            type: 'wave'
         });
 
         level.records.forEach((record) => {
@@ -140,7 +140,7 @@ export async function fetchLeaderboard() {
                 level: level.name,
                 score: score(rank + 1, listLength, false),
                 link: record.link,
-                type: 'classic'
+                type: 'wave'
             });
         });
     });
@@ -157,7 +157,7 @@ export async function fetchLeaderboard() {
             level: challenge.name,
             score: score(rank + 1, challengeListLength, true),
             link: challenge.verification,
-            type: 'platformer'
+            type: 'ship'
         });
 
         challenge.records?.forEach((record) => {
@@ -174,7 +174,7 @@ export async function fetchLeaderboard() {
                 level: challenge.name,
                 score: score(rank + 1, challengeListLength, true),
                 link: record.link,
-                type: 'platformer'
+                type: 'ship'
             });
         });
     });
