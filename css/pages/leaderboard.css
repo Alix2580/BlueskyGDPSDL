@@ -24,12 +24,12 @@
   vertical-align: middle;
 }
 
-.page-leaderboard .level-type.clasic {
+.page-leaderboard .level-type.wave {
   background-color: rgba(255, 0, 0, 0.2);
   color: rgba(255, 120, 120, 0.9);
 }
 
-.page-leaderboard .level-type.platformer {
+.page-leaderboard .level-type.ship {
   background-color: rgba(0, 150, 255, 0.2);
   color: rgba(120, 200, 255, 0.9);
 }
