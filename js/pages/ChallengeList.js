@@ -58,8 +58,8 @@ export default {
                             <p>{{ level.id }}</p>
                         </li>
                         <li>
-                            <div class="type-title-sm">Difficulty</div>
-                            <p>{{ level.password || 'Demon' }}</p>
+                            <div class="type-title-sm">Tier</div>
+                            <p>{{ level.password || 'Unasigned' }}</p>
                         </li>
                     </ul>
                     <h2>Records</h2>
