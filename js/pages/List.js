@@ -100,39 +100,11 @@ export default {
                     <ul class="editors">
                         <li>
                             <img src="./assets/crown.svg" alt="Owner" style="filter: invert(1)">
-                            <p>DubbyBall</p>
+                            <p>Lunikay</p>
                         </li>
                         <li>
                             <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>shib</p>
-                        </li>
-                        <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Kubix</p>
-                        </li>
-                        <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Firelia</p>
-                        </li>
-                          <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Hexy</p>
-                        </li>
-                         <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>Furrious</p>
-                        </li>
-                         <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>dusk</p>
-                        </li>
-                         <li>
-                            <img src="./assets/user-gear.svg" alt="Helper" style="filter: invert(1)">
-                            <p>daneeko</p>
-                        </li>
-                        <li>
-                            <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
-                            <p>Luna</p>
+                            <p>newbite</p>
                         </li>
                     </ul>
                     <h3>Submission Requirements</h3>
