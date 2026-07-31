@@ -17,7 +17,7 @@ export default {
                     <input 
                         type="text" 
                         v-model="searchQuery" 
-                        placeholder="Search platformers..." 
+                        placeholder="Search ship challenges..." 
                         class="search-input"
                     >
                     <button class="search-clear" v-if="searchQuery" @click="searchQuery = ''">
