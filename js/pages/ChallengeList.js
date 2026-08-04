@@ -86,20 +86,16 @@ export default {
             </div>
             <div class="meta-container">
                 <div class="meta">
-                    <h3>Platformer List Editors</h3>
+                    <h3>List Editors</h3>
                     <ul class="editors">
                         <li>
                             <img src="./assets/crown.svg" alt="Owner" style="filter: invert(1)">
-                            <p>DubbyBall</p>
-                        </li>
-                        <li>
-                            <img src="./assets/code.svg" alt="Developer" style="filter: invert(1)">
-                            <p>Luna</p>
+                            <p>Lunikay</p>
                         </li>
                     </ul>
-                    <h3>Platformer Submission Requirements</h3>
+                    <h3>Submission Requirements</h3>
                     <p>
-                        Achieved the record without using hacks (however, FPS bypass is allowed, up to 360fps)
+                        Achieved the record without using hacks
                     </p>
                     <p>
                         Have either source audio or clicks/taps in the video. Edited audio only does not count (Fake Clicks/Click Sounds are not allowed)
